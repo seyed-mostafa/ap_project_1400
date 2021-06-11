@@ -21,15 +21,15 @@ class ClientHandler implements Runnable {
         System.out.println("client " + clientCounter++ + " added.");
         try {
             //EnteringPage
-//            boolean validUser = false;
-//            String clientMessage = "";
-//            String inputPhoneNumberEnter = "";
-//            String inputPasswordEnter = "";
-//            clientMessage = this.dataIn.readLine();
-//            inputPhoneNumberEnter = clientMessage.substring(2);
-//            System.out.println(inputPhoneNumberEnter);
-//            inputPasswordEnter = clientMessage.substring(5);
-//            System.out.println(inputPasswordEnter);
+            boolean validUser = false;
+            String clientMessage = "";
+            String inputPhoneNumberEnter = "";
+            String inputPasswordEnter = "";
+            clientMessage = this.dataIn.readLine();
+            inputPhoneNumberEnter = clientMessage.substring(7, clientMessage.lastIndexOf(','));
+            System.out.println(inputPhoneNumberEnter);
+            inputPasswordEnter = clientMessage.substring(clientMessage.lastIndexOf(':')+2);
+            System.out.println(inputPasswordEnter);
 
 
 //        for(int i = 0; i < widget.restaurants.length; i++){
