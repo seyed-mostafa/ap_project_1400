@@ -16,7 +16,7 @@ public class Order {
 
 
 
-    Order(Map <Food,Integer> order,int restaurantId) {
+    public Order(Map<Food, Integer> order, int restaurantId) {
         this.restaurantId=restaurantId;
         orderTime = LocalDateTime.now();
         this.order=order;
@@ -31,8 +31,15 @@ public class Order {
 
     }
 
+    public void setCustomerAddress(Location customerAddress) {
+        this.customerAddress = customerAddress;
+    }
 
-    void setStatus(){
+    public void setRestaurantAddress(Location restaurantAddress) {
+        this.restaurantAddress = restaurantAddress;
+    }
+
+    public void setStatus(){
         status =!status;
         if (status) {
             setDeliveryTime();
@@ -41,10 +48,10 @@ public class Order {
     boolean getStatus(){
         return status;
     }
-    void setCustomerName(String name){
+    public void setCustomerName(String name){
         customerName =name;
     }
-    void setRestaurantName(String name){
+    public void setRestaurantName(String name){
         restaurantName=name;
     }
 

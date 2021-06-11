@@ -4,7 +4,7 @@ public class Location extends java.lang.Object{
     private String address;
     private double longitude,latitude;
 
-    Location(String address,double longitude,double latitude){
+    public Location(String address, double latitude,double longitude){
         this.address=address;
         this.longitude=longitude;
         this.latitude=latitude;

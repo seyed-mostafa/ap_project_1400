@@ -11,7 +11,7 @@ public class Restaurant {
     int sendingRangeRadius, id;
     Location address;
     ArrayList<Food> menu = new ArrayList<Food>();
-    ArrayList<TypeFood> type=new ArrayList<TypeFood>();
+    ArrayList<Food.TypeFood> type=new ArrayList<Food.TypeFood>();
     ArrayList<Order> orders = new ArrayList<Order>();
     ArrayList<Comment> comments = new ArrayList<Comment>();
     ArrayList<Integer> cashSales = new ArrayList<Integer>();
@@ -19,7 +19,7 @@ public class Restaurant {
     ArrayList<Integer> totalSales = new ArrayList<Integer>();
 
 
-    Restaurant(String name, Location address, String phoneNumber, String password)  {
+    public Restaurant(String name, Location address, String phoneNumber, String password)  {
         _count++;
         id =_count;
         this.name = name;
@@ -30,15 +30,15 @@ public class Restaurant {
 
 
 
-    void setCashSales(int sale){
+    public void setCashSales(int sale){
         cashSales.add(sale);
     }
 
-    void setOnlineSales(int sale){
+    public void setOnlineSales(int sale){
         onlineSales.add(sale);
     }
 
-    void addComment(Comment comment){
+    public void addComment(Comment comment){
         comments.add(comment);
     }
 
@@ -46,7 +46,7 @@ public class Restaurant {
         return comments;
     }
 
-    void addOrder(Order order){
+    public void addOrder(Order order){
         orders.add(order);
 
     }
@@ -63,11 +63,11 @@ public class Restaurant {
         menu.add(food);
     }
 
-    int getId(){
+    public int getId(){
         return id;
     }
 
-    void addTypeFood(TypeFood typeFood){
+    void addTypeFood(Food.TypeFood typeFood){
         type.add(typeFood);
     }
 
@@ -103,7 +103,7 @@ public class Restaurant {
 
 
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
@@ -131,7 +131,7 @@ public class Restaurant {
         return hour;
     }
 
-    ArrayList<TypeFood> getTypeFoods(){
+    ArrayList<Food.TypeFood> getTypeFoods(){
         return type;
     }
 

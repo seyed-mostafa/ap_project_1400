@@ -8,7 +8,7 @@ public class Food {
     TypeFood typeFood;
 
 
-    Food(String name, String description, int price, int discount,  boolean available, TypeFood typeFood) {
+    public Food(String name, String description, int price, int discount, boolean available, TypeFood typeFood) {
         this.name = name;
         if (discount != 0) {
             this.discount = discount;
@@ -71,12 +71,14 @@ public class Food {
     TypeFood getTypeFood() {
         return typeFood;
     }
+
+    public enum TypeFood {
+        Pizza, Sandwich, Drinks, PersianFood, Dessert          //دسر
+        , Appetizer       //پیش غذا
+        , Fried           //سوخاری
+        , Steaks, Breakfast, International, all
+    }
 }
 
 
-enum TypeFood {
-    Pizza, Sandwich, Drinks, PersianFood, Dessert          //دسر
-    , Appetizer       //پیش غذا
-    , Fried           //سوخاری
-    , Steaks, Breakfast, International, all
-}
+
