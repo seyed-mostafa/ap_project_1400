@@ -20,55 +20,55 @@ public class Food {
     }
 
 
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    void setPrice(int price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
-    void setDiscount(int discount) {
+    public void setDiscount(int discount) {
         if (discount != 0) {
             this.discount = discount;
         }
     }
 
-    void setAvailable(boolean available) {
+    public void setAvailable(boolean available) {
         this.available = available;
     }
 
-    void setTypeFood(TypeFood typeFood) {
+    public void setTypeFood(TypeFood typeFood) {
         this.typeFood = typeFood;
     }
 
 
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    int getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    int getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    boolean getAvailable() {
+    public boolean getAvailable() {
         return available;
     }
 
-    TypeFood getTypeFood() {
+    public TypeFood getTypeFood() {
         return typeFood;
     }
 

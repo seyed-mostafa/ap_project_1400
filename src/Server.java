@@ -1,8 +1,13 @@
+import Database.Database;
+import Objects.*;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import static Database.Database.getDatabase;
 
 class ClientHandler implements Runnable {
     static int clientCounter = 1;
@@ -76,7 +81,11 @@ class Server {
 class Main {
     public static void main(String[] args) throws IOException {
 
-        Server server = new Server(8080);
+        //Server server = new Server(8080);
+
+        Database database=getDatabase();
+        System.out.println(database.restaurants.get(0).getMenu().get(5));
+
 
     }
 }

@@ -45,7 +45,7 @@ public class Order {
             setDeliveryTime();
         }
     }
-    boolean getStatus(){
+    public boolean getStatus(){
         return status;
     }
     public void setCustomerName(String name){
@@ -55,45 +55,45 @@ public class Order {
         restaurantName=name;
     }
 
-    void setDeliveryTime(){
+    public void setDeliveryTime(){
         deliveryTime = LocalDateTime.now();
     }
 
 
 
-    int getPrice(){
+    public int getPrice(){
         return price;
     }
 
-    Location getCustomerAddress(){
+    public Location getCustomerAddress(){
         return customerAddress;
     }
 
-    Location getRestaurantAddress(){
+    public Location getRestaurantAddress(){
         return restaurantAddress;
     }
 
-    String getRestaurantName(){
+    public String getRestaurantName(){
         return restaurantName;
     }
 
-    String getCustomerName(){
+    public String getCustomerName(){
         return customerName;
     }
 
-    LocalDateTime getOrderTime() {
+    public LocalDateTime getOrderTime() {
         return orderTime;
     }
 
-    LocalDateTime getDeliveryTime() {
+    public LocalDateTime getDeliveryTime() {
         return deliveryTime;
     }
 
-    int getId(){
+    public int getId(){
         return id;
     }
 
-    Map <Food,Integer> getOrder(){
+    public Map <Food,Integer> getOrder(){
         return order;
     }
 }

@@ -42,7 +42,7 @@ public class Restaurant {
         comments.add(comment);
     }
 
-    ArrayList<Comment> getComments(){
+    public ArrayList<Comment> getComments(){
         return comments;
     }
 
@@ -51,15 +51,15 @@ public class Restaurant {
 
     }
 
-    ArrayList<Order> getOrders(){
+    public ArrayList<Order> getOrders(){
         return orders;
     }
 
-    ArrayList<Food> getMenu() {
+    public ArrayList<Food> getMenu() {
         return menu;
     }
 
-    void addMenu(Food food){
+    public void addMenu(Food food){
         menu.add(food);
     }
 
@@ -67,35 +67,35 @@ public class Restaurant {
         return id;
     }
 
-    void addTypeFood(Food.TypeFood typeFood){
+    public void addTypeFood(Food.TypeFood typeFood){
         type.add(typeFood);
     }
 
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    void setDays(String days) {
+    public void setDays(String days) {
         this.days = days;
     }
 
-    void setHour(String hour) {
+    public void setHour(String hour) {
         this.hour = hour;
     }
 
-    void setAddress(Location address) {
+    public void setAddress(Location address) {
         this.address = address;
     }
 
-    void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    void setSendingRangeRadius(int sendingRangeRadius) {
+    public void setSendingRangeRadius(int sendingRangeRadius) {
         this.sendingRangeRadius = sendingRangeRadius;
     }
 
@@ -107,63 +107,63 @@ public class Restaurant {
         return name;
     }
 
-    Location getAddress() {
+    public Location getAddress() {
         return address;
     }
 
-    String getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    int getSendingRangeRadius() {
+    public int getSendingRangeRadius() {
         return sendingRangeRadius;
     }
 
-    String getDays() {
+    public String getDays() {
         return days;
     }
 
-    String getHour() {
+    public String getHour() {
         return hour;
     }
 
-    ArrayList<Food.TypeFood> getTypeFoods(){
+    public ArrayList<Food.TypeFood> getTypeFoods(){
         return type;
     }
 
-    ArrayList<Integer> getOnlineSales(){
+    public ArrayList<Integer> getOnlineSales(){
         return onlineSales;
     }
 
-    ArrayList<Integer> getCashSales(){
+    public ArrayList<Integer> getCashSales(){
         return cashSales;
     }
 
-    ArrayList<Integer> getTotalSales(){
+    public ArrayList<Integer> getTotalSales(){
         for(int i=0;i<30;i++)
             totalSales.add(cashSales.indexOf(i)+ onlineSales.indexOf(i));
         return totalSales;
     }
 
-    int getOnlineSalesSum(int i){
+    public int getOnlineSalesSum(int i){
         int sum=0;
         for(i=30-i; i< onlineSales.size(); i++)
             sum+= onlineSales.indexOf(i);
         return sum;
     }
 
-    int getCashSalesSum(int i){
+    public int getCashSalesSum(int i){
         int sum=0;
         for(i=30-i ; i< cashSales.size(); i++)
             sum+= cashSales.indexOf(i);
         return sum;
     }
 
-    int getTotalSalesSum(int i){
+    public int getTotalSalesSum(int i){
         int sum=0;
         for(i=30-i; i< onlineSales.size(); i++) {
             sum += onlineSales.indexOf(i);

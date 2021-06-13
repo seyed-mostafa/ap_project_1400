@@ -3,14 +3,38 @@ package Database;
 
 import Objects.*;
 import Objects.Food.TypeFood;
+
+import java.util.ArrayList;
 import java.util.Map;
 
-class Database {
+public class Database {
 
-    Restaurant importOneRestaurant() {
+    public static ArrayList<Restaurant> restaurants= new ArrayList<>();
+    public static ArrayList<Customer> customers= new ArrayList<>();
+
+
+
+    private static Database database;
+    private Database() {}
+    public static Database getDatabase() {
+        if(database == null) {
+            database = new Database();
+        }
+        return database;
+    }
+
+
+
+    static  {
+
+        /////////////////////////         add restaurant
+
+
+
         Restaurant restaurant1 = new Restaurant("Reihoon",
                 new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
                         34.717676891099835, 51.331243399093914), "09123456782", "123");
+
         Food food1 = new Food("ghorme", "description1", 25000, 0, true, TypeFood.PersianFood);
         Food food2 = new Food("gheime", "description2", 30000, 20, true, TypeFood.PersianFood);
         Food food3 = new Food("makhsoos", "description3", 25000, 0, true, TypeFood.Pizza);
@@ -31,6 +55,28 @@ class Database {
         Food food18 = new Food("pancake", "description18", 25000, 0, true, TypeFood.Breakfast);
         Food food19 = new Food("ghorme kharegy", "description19", 25000, 50, true, TypeFood.International);
         Food food20 = new Food("ghorme kharegy", "description20", 8000, 0, true, TypeFood.International);
+
+        restaurant1.addMenu(food1);
+        restaurant1.addMenu(food2);
+        restaurant1.addMenu(food3);
+        restaurant1.addMenu(food4);
+        restaurant1.addMenu(food5);
+        restaurant1.addMenu(food6);
+        restaurant1.addMenu(food7);
+        restaurant1.addMenu(food8);
+        restaurant1.addMenu(food9);
+        restaurant1.addMenu(food10);
+        restaurant1.addMenu(food11);
+        restaurant1.addMenu(food12);
+        restaurant1.addMenu(food13);
+        restaurant1.addMenu(food14);
+        restaurant1.addMenu(food15);
+        restaurant1.addMenu(food16);
+        restaurant1.addMenu(food17);
+        restaurant1.addMenu(food18);
+        restaurant1.addMenu(food19);
+        restaurant1.addMenu(food20);
+
 
         Food[] foodList1 = {food20, food18, food16, food14, food12};
         Food[] foodList2 = {food10, food8, food6, food4, food2};
@@ -196,7 +242,56 @@ class Database {
         restaurant1.setOnlineSales(630);
         restaurant1.setOnlineSales(500);
 
-        return restaurant1;
+        restaurants.add(restaurant1);
+
+
+
+
+        /////////////////////////////    add customer
+
+
+
+
+
+
+        Customer customer1 = new Customer("Ali", "Alavi", "09123456790", "123");
+        customer1.addFavoriteRestaurant(restaurants.get(0));
+
+
+        customer1.addComment(comment3);
+        customer1.addComment(comment7);
+
+        customer1.addShoppingCart(order1.getOrder(), restaurant1.getId());
+        customer1.addShoppingCart(order4.getOrder(), restaurant1.getId());
+        customer1.addShoppingCart(order2.getOrder(), restaurant1.getId());
+//        customer1.getShoppingCart().indexOf(0).setRestaurantName(restaurant[0].getName());
+//        customer1.getShoppingCart()[0].setRestaurantAddressString(" Tehran Province, Tehran, District 7, Mir Emad St &, Shahid Motahari St");
+
+//        customer1.addShoppingCart(restaurant[1].getMenu()[2], restaurant[1].getId(), 1);
+//        customer1.addShoppingCart(restaurant[1].getMenu()[3], restaurant[1].getId(), 2);
+//        customer1.addShoppingCart(restaurant[1].getMenu()[4], restaurant[1].getId(), 3);
+//        customer1.getShoppingCart()[1].setRestaurantName(restaurant[1].getName());
+//        customer1.getShoppingCart()[1].setRestaurantAddressString( "Tehran Province, Tehran, District 7, Mir Emad St &, Shahid Motahari St");
+//
+//
+//        Order order1 = new Order(restaurant[2].getMenu()[2], restaurant[2].getId(), 1);
+//        order1.addFood(restaurant[2].getMenu()[3], 2);
+//        order1.addFood(restaurant[2].getMenu()[4], 4);
+//        customer1.addPreviousOrders(order1);
+//        customer1.getPreviousOrders()[0].setRestaurantName(restaurant[2].getName());
+//        customer1.getPreviousOrders()[0].setRestaurantAddressString( "Tehran Province, Tehran, District 7, Mir Emad St &, Shahid Motahari St");
+//
+//        Order order2 = new Order(restaurant[3].getMenu()[2], restaurant[3].getId(), 4);
+//        order2.addFood(restaurant[3].getMenu()[1], 2);
+//        order2.addFood(restaurant[3].getMenu()[3], 1);
+//        order2.setDelivered();
+//        customer1.addPreviousOrders(order2);
+//        customer1.getPreviousOrders()[1].setRestaurantName(restaurant[3].getName());
+//        customer1.getPreviousOrders()[1].setRestaurantAddressString( "Tehran Province, Tehran, District 7, Mir Emad St &, Shahid Motahari St");
+
+        customer1.setWallet(300000);
+
+        customers.add(customer1);
     }
 
 }
