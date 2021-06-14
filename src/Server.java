@@ -31,6 +31,8 @@ class ClientHandler implements Runnable {
             String inputPhoneNumberEnter = "";
             String inputPasswordEnter = "";
             clientMessage = this.dataIn.readLine();
+            System.out.println(clientMessage);
+            dataOut.writeBytes(data());
             inputPhoneNumberEnter = clientMessage.substring(7, clientMessage.lastIndexOf(','));
             System.out.println(inputPhoneNumberEnter);
             inputPasswordEnter = clientMessage.substring(clientMessage.lastIndexOf(':')+2);
@@ -59,6 +61,27 @@ class ClientHandler implements Runnable {
         }
     }
 
+    private String data() {
+        String data;
+        Database database=getDatabase();
+        Restaurant restaurant=database.restaurants.get(0);
+        data=restaurant.getName()+"&";
+        data+=restaurant.getPassword()+"&";
+        data+=restaurant.getPhoneNumber()+"&";
+        data+=restaurant.getId()+"&";
+        data+=restaurant.getComments()+"&";
+
+//        data+=restaurant.getName()+"&";
+//        data+=restaurant.getName()+"&";
+//        data+=restaurant.getName()+"&";
+//        data+=restaurant.getName()+"&";
+//        data+=restaurant.getName()+"&";
+//        data+=restaurant.getName()+"&";
+//        data+=restaurant.getName()+"&";
+
+        return data;
+    }
+
 }
 
 class Server {
@@ -81,10 +104,8 @@ class Server {
 class Main {
     public static void main(String[] args) throws IOException {
 
-        //Server server = new Server(8080);
+        Server server = new Server(8080);
 
-        Database database=getDatabase();
-        System.out.println(database.restaurants.get(0).getMenu().get(5));
 
 
     }
