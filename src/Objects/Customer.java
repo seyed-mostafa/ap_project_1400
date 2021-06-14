@@ -19,43 +19,43 @@ public class Customer  {
 
 
 
-    Customer(String firstName,String lastName,String phoneNumber,String password) {
+    public Customer(String firstName, String lastName, String phoneNumber, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
 
-    void setName(String name) {
+    public void setName(String name) {
         firstName = name;
     }
 
-    void setLastName(String name) {
+    public void setLastName(String name) {
         lastName = name;
     }
 
-    void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    void setWallet(int wallet) {
+    public void setWallet(int wallet) {
         this.wallet = wallet;
     }
 
-    void addAddress(String address,double longitude,double latitude){
+    public void addAddress(String address,double longitude,double latitude){
         this.address.add(new Location(address, longitude, latitude));
 
     }
 
-    void removeShoppingCart(Order order) {
+    public void removeShoppingCart(Order order) {
         shoppingCart.remove(order);
     }
 
-    void addShoppingCart(Map<Food,Integer> order, int restaurantId) {
+    public void addShoppingCart(Map<Food,Integer> order, int restaurantId) {
 //        for (Order order : shoppingCart){
 //            if (order.getRestaurantId() == restaurantId) {
 //                order.addFood(food, i);
@@ -65,15 +65,15 @@ public class Customer  {
         shoppingCart.add(new Order(order, restaurantId));
     }
 
-    void addPreviousOrders(Order order) {
+    public void addPreviousOrders(Order order) {
         orders.add(order);
     }
 
-    void addComment(Comment comment) {
+    public void addComment(Comment comment) {
         this.comments.add(comment);
     }
 
-    void addFavoriteRestaurant(Restaurant favoriteRestaurant) {
+    public void addFavoriteRestaurant(Restaurant favoriteRestaurant) {
         this.favoriteRestaurant.add(favoriteRestaurant);
     }
 
@@ -82,43 +82,43 @@ public class Customer  {
 
 
 
-    String getName() {
+    public String getName() {
         return firstName;
     }
 
-    String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    String getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    int getWallet() {
+    public int getWallet() {
         return wallet;
     }
 
-    ArrayList<Location> getAddress() {
+    public ArrayList<Location> getAddress() {
         return address;
     }
 
-    ArrayList<Order> getShoppingCart() {
+    public ArrayList<Order> getShoppingCart() {
         return shoppingCart;
     }
 
-    ArrayList<Order> getPreviousOrders() {
+    public ArrayList<Order> getPreviousOrders() {
         return orders;
     }
 
-    ArrayList<Comment> getComments() {
+    public ArrayList<Comment> getComments() {
         return comments;
     }
 
-    ArrayList<Restaurant> getFavoriteRestaurant() {
+    public ArrayList<Restaurant> getFavoriteRestaurant() {
         return favoriteRestaurant;
     }
 }

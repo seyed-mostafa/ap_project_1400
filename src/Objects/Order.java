@@ -16,7 +16,7 @@ public class Order {
 
 
 
-    Order(Map <Food,Integer> order,int restaurantId) {
+    public Order(Map<Food, Integer> order, int restaurantId) {
         this.restaurantId=restaurantId;
         orderTime = LocalDateTime.now();
         this.order=order;
@@ -31,62 +31,69 @@ public class Order {
 
     }
 
+    public void setCustomerAddress(Location customerAddress) {
+        this.customerAddress = customerAddress;
+    }
 
-    void setStatus(){
+    public void setRestaurantAddress(Location restaurantAddress) {
+        this.restaurantAddress = restaurantAddress;
+    }
+
+    public void setStatus(){
         status =!status;
         if (status) {
             setDeliveryTime();
         }
     }
-    boolean getStatus(){
+    public boolean getStatus(){
         return status;
     }
-    void setCustomerName(String name){
+    public void setCustomerName(String name){
         customerName =name;
     }
-    void setRestaurantName(String name){
+    public void setRestaurantName(String name){
         restaurantName=name;
     }
 
-    void setDeliveryTime(){
+    public void setDeliveryTime(){
         deliveryTime = LocalDateTime.now();
     }
 
 
 
-    int getPrice(){
+    public int getPrice(){
         return price;
     }
 
-    Location getCustomerAddress(){
+    public Location getCustomerAddress(){
         return customerAddress;
     }
 
-    Location getRestaurantAddress(){
+    public Location getRestaurantAddress(){
         return restaurantAddress;
     }
 
-    String getRestaurantName(){
+    public String getRestaurantName(){
         return restaurantName;
     }
 
-    String getCustomerName(){
+    public String getCustomerName(){
         return customerName;
     }
 
-    LocalDateTime getOrderTime() {
+    public LocalDateTime getOrderTime() {
         return orderTime;
     }
 
-    LocalDateTime getDeliveryTime() {
+    public LocalDateTime getDeliveryTime() {
         return deliveryTime;
     }
 
-    int getId(){
+    public int getId(){
         return id;
     }
 
-    Map <Food,Integer> getOrder(){
+    public Map <Food,Integer> getOrder(){
         return order;
     }
 }

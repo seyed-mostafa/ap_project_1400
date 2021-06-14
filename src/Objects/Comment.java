@@ -5,18 +5,18 @@ public class Comment {
     String comment, reply, customerName, restaurantName;
     LocalDateTime timeComment, timeReply;
 
-    Comment(String comment) {
+    public Comment(String comment) {
         this.comment =comment;
         timeComment = LocalDateTime.now();
     }
-    void setReply(String reply){
+    public void setReply(String reply){
         this.reply =reply;
         timeReply = LocalDateTime.now();
     }
-    void setRestaurantName(String restaurantName){
+    public void setRestaurantName(String restaurantName){
         this.restaurantName =restaurantName;
     }
-    void setCustomerName(String customerName){
+    public void setCustomerName(String customerName){
         this.customerName =customerName;
     }
     String getComment(){
