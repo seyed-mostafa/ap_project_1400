@@ -19,22 +19,22 @@ public class Comment {
     public void setCustomerName(String customerName){
         this.customerName =customerName;
     }
-    String getComment(){
+    public String getComment(){
         return comment;
     }
-    String getReply(){
+    public String getReply(){
         return reply;
     }
-    String getRestaurantName(){
+    public String getRestaurantName(){
         return restaurantName;
     }
-    String getCustomerName(){
+    public String getCustomerName(){
         return customerName;
     }
-    LocalDateTime getTimeComment(){
+    public LocalDateTime getTimeComment(){
         return timeComment;
     }
-    LocalDateTime getTimeReply(){
+    public LocalDateTime getTimeReply(){
         return timeReply;
     }
 }

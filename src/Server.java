@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import static Database.Database.customers;
 import static Database.Database.getDatabase;
 
 class ClientHandler implements Runnable {
@@ -24,19 +25,75 @@ class ClientHandler implements Runnable {
     @Override
     public void run() {
         System.out.println("client " + clientCounter++ + " added.");
+
+        String who = ""; // Seller Or Customer
+
         try {
-            //EnteringPage
-            boolean validUser = false;
-            String clientMessage = "";
-            String inputPhoneNumberEnter = "";
-            String inputPasswordEnter = "";
-            clientMessage = this.dataIn.readLine();
-            System.out.println(clientMessage);
-            dataOut.writeBytes(data());
-            inputPhoneNumberEnter = clientMessage.substring(7, clientMessage.lastIndexOf(','));
-            System.out.println(inputPhoneNumberEnter);
-            inputPasswordEnter = clientMessage.substring(clientMessage.lastIndexOf(':')+2);
-            System.out.println(inputPasswordEnter);
+            who = dataIn.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (who.equals("Seller")) {
+            try {
+                //EnteringPage
+                boolean validUser = false;
+                String clientMessage = "";
+                String inputPhoneNumberEnter = "";
+                String inputPasswordEnter = "";
+                clientMessage = this.dataIn.readLine();
+                System.out.println(clientMessage);
+                //dataOut.writeBytes(data());
+                inputPhoneNumberEnter = clientMessage.substring(7, clientMessage.lastIndexOf(','));
+                System.out.println(inputPhoneNumberEnter);
+                inputPasswordEnter = clientMessage.substring(clientMessage.lastIndexOf(':')+2);
+                System.out.println(inputPasswordEnter);
+
+
+
+            } catch (Exception e) {
+                try {
+                    this.socket.close();
+                    this.dataOut.close();
+                    this.dataIn.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        } else { // Customer
+            try {
+
+                ///////////////////////////////////////////EnteringPage/////////////////////////////////////////////////
+
+                boolean validUser = false;
+                int currentCustomerIndex = 0;
+                String clientMessage = "";
+                String inputPhoneNumberEnter = "";
+                String inputPasswordEnter = "";
+
+                clientMessage = dataIn.readLine();
+                System.out.println(clientMessage);
+
+                inputPhoneNumberEnter = clientMessage.substring(7, clientMessage.lastIndexOf(','));
+                System.out.println(inputPhoneNumberEnter);
+                inputPasswordEnter = clientMessage.substring(clientMessage.lastIndexOf(':')+2);
+                System.out.println(inputPasswordEnter);
+
+                for (int i = 0; i < Database.customers.size(); i++) {
+                    if (customers.get(i).getPhoneNumber().equals(inputPhoneNumberEnter) && customers.get(i).getPassword().equals(inputPasswordEnter)) {
+                        validUser = true;
+                        currentCustomerIndex = i;
+                        break;
+                    }
+                }
+
+                if (validUser) {
+                    dataOut.writeBytes("true" + data(currentCustomerIndex));
+                    System.out.println("User was True, index : " + currentCustomerIndex);
+                } else {
+                    dataOut.writeBytes("false");
+                    System.out.println("User was not True");
+                }
 
 
 //        for(int i = 0; i < widget.restaurants.length; i++){
@@ -50,34 +107,36 @@ class ClientHandler implements Runnable {
 //            }
 //        }
 
-        } catch (Exception e) {
-            try {
-                this.socket.close();
-                this.dataOut.close();
-                this.dataIn.close();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
+            } catch (Exception e) {
+                try {
+                    this.socket.close();
+                    this.dataOut.close();
+                    this.dataIn.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         }
+
+
     }
 
-    private String data() {
-        String data;
-        Database database=getDatabase();
-        Restaurant restaurant=database.restaurants.get(0);
-        data=restaurant.getName()+"&";
-        data+=restaurant.getPassword()+"&";
-        data+=restaurant.getPhoneNumber()+"&";
-        data+=restaurant.getId()+"&";
-        data+=restaurant.getComments()+"&";
+    private String data(int index) {
 
-//        data+=restaurant.getName()+"&";
-//        data+=restaurant.getName()+"&";
-//        data+=restaurant.getName()+"&";
-//        data+=restaurant.getName()+"&";
-//        data+=restaurant.getName()+"&";
-//        data+=restaurant.getName()+"&";
-//        data+=restaurant.getName()+"&";
+        String data = "";
+
+        data += customers.get(index).getName() + "& ";
+        data += customers.get(index).getLastName() + "& ";
+        data += customers.get(index).getPhoneNumber() + "& ";
+        data += customers.get(index).getPassword() + "& ";
+        data += customers.get(index).getWallet() + "& ";
+
+        data += "[";
+        for (int i = 0; i < customers.get(index).getComments().size(); i++) {
+            data += customers.get(index).getComments().get(i).getComment() + ", ";
+        }
+        data += "]& ";
+
 
         return data;
     }
