@@ -19,6 +19,12 @@ public class Comment {
     public void setCustomerName(String customerName){
         this.customerName =customerName;
     }
+    public void setTimeComment(LocalDateTime  localDateTime) {
+        this.timeComment = localDateTime;
+    }
+    public void setTimeReply(LocalDateTime localDateTime) {
+        this.timeReply = localDateTime;
+    }
     public String getComment(){
         return comment;
     }

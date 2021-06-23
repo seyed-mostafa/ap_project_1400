@@ -65,6 +65,10 @@ public class Customer  {
         shoppingCart.add(new Order(order, restaurantId));
     }
 
+    public void addShoppingCart(Order oreder) {
+        shoppingCart.add(oreder);
+    }
+
     public void addPreviousOrders(Order order) {
         orders.add(order);
     }

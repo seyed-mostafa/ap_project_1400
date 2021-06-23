@@ -6,9 +6,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static Database.Database.customers;
-import static Database.Database.getDatabase;
+import static Database.Database.*;
 
 class ClientHandler implements Runnable {
     static int clientCounter = 1;
@@ -35,20 +39,115 @@ class ClientHandler implements Runnable {
         }
 
         if (who.equals("Seller")) {
+
             try {
-                //EnteringPage
+                //Entering Page
                 boolean validUser = false;
+                int currentIndex = 0;
                 String clientMessage = "";
                 String inputPhoneNumberEnter = "";
                 String inputPasswordEnter = "";
-                clientMessage = this.dataIn.readLine();
+
+                clientMessage = dataIn.readLine();
                 System.out.println(clientMessage);
-                //dataOut.writeBytes(data());
+
                 inputPhoneNumberEnter = clientMessage.substring(7, clientMessage.lastIndexOf(','));
                 System.out.println(inputPhoneNumberEnter);
-                inputPasswordEnter = clientMessage.substring(clientMessage.lastIndexOf(':')+2);
+                inputPasswordEnter = clientMessage.substring(clientMessage.lastIndexOf(':') + 2);
                 System.out.println(inputPasswordEnter);
 
+
+                //Registering Page
+                String dataRegisteringString = dataIn.readLine(); //format: Registering::nameRegistering::phoneNumber::password::address(String)::longitude::latitude::range::foodType1,foodType2,...
+                String [] dataRegistering = dataRegisteringString.split("::");
+                String nameRigestering = dataRegistering[1];
+                String phoneNumber = dataRegistering[2];
+                String password = dataRegistering[3];
+                String addressString = dataRegistering[4];
+                double lon = Double.parseDouble(dataRegistering[5]);
+                double lat = Double.parseDouble(dataRegistering[6]);
+                int range = Integer.parseInt(dataRegistering[7]);
+                String [] typeFoodRegistering = dataRegistering[8].split(",");
+
+                Restaurant restaurantToAdd = new Restaurant(nameRigestering, new Location(addressString, lat, lon), phoneNumber, password);
+                restaurantToAdd.setSendingRangeRadius(range);
+                for (String type: typeFoodRegistering) {
+                    restaurantToAdd.addTypeFood(Food.TypeFood.valueOf(type));
+                }
+
+                restaurants.add(restaurantToAdd);
+
+
+                for (int i = 0; i < restaurants.size(); i++) {
+                    if (customers.get(i).getPhoneNumber().equals(inputPhoneNumberEnter) && customers.get(i).getPassword().equals(inputPasswordEnter)) {
+                        validUser = true;
+                        currentIndex = i;
+                        break;
+                    }
+                }
+
+                if (validUser) {
+                    dataOut.writeBytes("true" + data(currentIndex));
+                    System.out.println("User was True, index : " + currentIndex);
+                } else {
+                    dataOut.writeBytes("false");
+                    System.out.println("User was not True");
+                }
+
+
+                while (true) {
+
+                    String command = dataIn.readLine();
+
+                    if (command.startsWith("order")) {
+
+                    } else if (command.startsWith("addFood")) { //format: addFood::name::description::price::discount::typeFood
+
+                        String [] list = command.split("::");
+
+                        String name = list[1];
+                        String description = list[2];
+                        int price = Integer.parseInt(list[3]);
+                        int discount = Integer.parseInt(list[4]);
+                        boolean available = true; //ToDo
+                        Food.TypeFood typeFood = Food.TypeFood.valueOf(list[5]);
+
+                        Food food = new Food(name, description, price, discount, available, typeFood);
+                        restaurants.get(currentIndex).getMenu().add(food);
+
+                    } else if (command.startsWith("changeFood")) { //format: changeFood::foodIndexToChange::name::description::price::discount::available::typeFood
+
+                        String [] list = command.split("::");
+
+                        int foodIndexToChange = 0;
+                        String name = list[2];
+                        String description = list[3];
+                        int price = Integer.parseInt(list[4]);
+                        int discount = Integer.parseInt(list[5]);
+                        boolean available = Boolean.getBoolean(list[6]);
+                        Food.TypeFood typeFood = Food.TypeFood.valueOf(list[7]);
+
+                        restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setName(name);
+                        restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setDescription(description);
+                        restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setPrice(price);
+                        restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setDiscount(discount);
+                        restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setAvailable(available);
+                        restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setTypeFood(typeFood);
+
+                    } else if (command.startsWith("comment")) {
+
+
+                    } else if (command.startsWith("exit")) {
+
+                        System.out.println("Bye");
+                        break;
+
+                    } else {
+
+                        System.out.println("Unhandled Command");
+
+                    }
+                }
 
 
             } catch (Exception e) {
@@ -60,13 +159,14 @@ class ClientHandler implements Runnable {
                     ioException.printStackTrace();
                 }
             }
+
         } else { // Customer
+
             try {
 
-                ///////////////////////////////////////////EnteringPage/////////////////////////////////////////////////
-
+                //Entering Page
                 boolean validUser = false;
-                int currentCustomerIndex = 0;
+                int currentIndex = 0;
                 String clientMessage = "";
                 String inputPhoneNumberEnter = "";
                 String inputPasswordEnter = "";
@@ -76,38 +176,134 @@ class ClientHandler implements Runnable {
 
                 inputPhoneNumberEnter = clientMessage.substring(7, clientMessage.lastIndexOf(','));
                 System.out.println(inputPhoneNumberEnter);
-                inputPasswordEnter = clientMessage.substring(clientMessage.lastIndexOf(':')+2);
+                inputPasswordEnter = clientMessage.substring(clientMessage.lastIndexOf(':') + 2);
                 System.out.println(inputPasswordEnter);
+
+                //Registering Page
+                String dataRegisteringString = dataIn.readLine(); //format: Registering::firstName::lastName::phoneNumber::password::address(String)::longitude::latitude
+                String [] dataRegistering = dataRegisteringString.split("::");
+                String firstName = dataRegistering[1];
+                String lastName = dataRegistering[2];
+                String phoneNumber = dataRegistering[3];
+                String password = dataRegistering[4];
+                String addressString = dataRegistering[5];
+                double lon = Double.parseDouble(dataRegistering[6]);
+                double lat = Double.parseDouble(dataRegistering[7]);
+
+                Customer customerToAdd = new Customer(firstName, lastName, phoneNumber, password);
+                customerToAdd.addAddress(addressString, lon, lat);
+
+                customers.add(customerToAdd);
 
                 for (int i = 0; i < Database.customers.size(); i++) {
                     if (customers.get(i).getPhoneNumber().equals(inputPhoneNumberEnter) && customers.get(i).getPassword().equals(inputPasswordEnter)) {
                         validUser = true;
-                        currentCustomerIndex = i;
+                        currentIndex = i;
                         break;
                     }
                 }
 
                 if (validUser) {
-                    dataOut.writeBytes("true" + data(currentCustomerIndex));
-                    System.out.println("User was True, index : " + currentCustomerIndex);
+                    dataOut.writeBytes("true" + data(currentIndex));
+                    System.out.println("User was True, index : " + currentIndex);
                 } else {
                     dataOut.writeBytes("false");
                     System.out.println("User was not True");
                 }
 
+                if (validUser)
+                    while (true) {
 
-//        for(int i = 0; i < widget.restaurants.length; i++){
-//            if(inputPhoneNumberEnter == widget.restaurants[i].getPhoneNumber() &&
-//                    inputPasswordEnter == widget.restaurants[i].getPassword()) {
-//                Navigator.pushReplacement(
-//                        context,
-//                        MaterialPageRoute(builder: (context) =>
-//                Nav(widget.restaurants[i])),
-//                          );
-//            }
-//        }
+                        String command = dataIn.readLine();
+                        System.out.println(command);
+
+                        if (command.startsWith("wallet")) { //format: wallet::1000
+
+                            int inputWallet = Integer.parseInt(command.substring(8));
+                            customers.get(currentIndex).setWallet(inputWallet);
+
+                        } else if (command.startsWith("bag")) { //format: bag::restaurantName::price::restaurantId::customerAddress::food1,2&food2,5&...(food1=name@description@price@discount@typefood)
+
+                            String[] list = command.split("::");
+
+                            String customerName = customers.get(currentIndex).getName();
+                            String restaurantName = list[1];
+                            int price = Integer.parseInt(list[2]);
+                            int restaurantId = Integer.parseInt(list[3]);
+                            Location customerAddress = customers.get(currentIndex).getAddress().get(0); //ToDo read from client
+                            Location restaurantAddress = restaurants.get(0).getAddress();
+                            for (Restaurant restaurant: restaurants) {
+                                if (restaurant.getId() == restaurantId) {
+                                    restaurantAddress = restaurant.getAddress();
+                                    break;
+                                }
+                            }
+                            LocalDateTime orderTime = LocalDateTime.now();
+                            Map<Food, Integer> order = new HashMap<Food, Integer>(); //ToDo read from client
+                            String[] orderMap = list[4].split("&");
+                            for (int i = 0; i < orderMap.length; i++) {
+                                String stringFood = orderMap[i].substring(0, orderMap[i].indexOf(","));
+                                int count = Integer.parseInt(orderMap[i].substring(orderMap[i].indexOf(",")));
+                                String[] foodData = stringFood.split("@");
+                                order.put(
+                                    new Food(foodData[0], foodData[1], Integer.parseInt(foodData[2]), Integer.parseInt(foodData[3]), true, Food.TypeFood.valueOf(foodData[4])),
+                                        count
+                                );
+                            }
+
+                            Order orderToAdd = new Order(order, restaurantId);
+                            orderToAdd.setCustomerName(customerName);
+                            orderToAdd.setRestaurantName(restaurantName);
+                            orderToAdd.setCustomerAddress(customerAddress);
+                            orderToAdd.setRestaurantAddress(restaurantAddress);
+                            orderToAdd.setPrice(price);
+
+                            customers.get(currentIndex).addShoppingCart(orderToAdd);
+
+                        } else if (command.startsWith("location")) { //format: location::address(String)::longitude::latitude
+
+                            String [] list = command.split("::");
+
+                            String address = list[1];
+                            double longitude = Double.parseDouble(list[2]);
+                            double latitude = Double.parseDouble(list[3]);
+
+                            customers.get(currentIndex).addAddress(address, longitude, latitude);
+
+                        } else if (command.startsWith("favorite")) { //favorite::restaurantIndex
+
+                            int favoriteRestaurantToAdd = Integer.parseInt(command.substring(10));
+                            customers.get(currentIndex).addFavoriteRestaurant(restaurants.get(favoriteRestaurantToAdd));
+
+                        } else if (command.startsWith("comment")) { //comment::comment(String)::restaurantName
+
+                            String[] list = command.split("::");
+                            String comment = list[1];
+                            String customerName = customers.get(currentIndex).getName();
+                            String restaurantName = list[2];
+                            LocalDateTime timeComment = LocalDateTime.now();
+
+                            Comment commentToAdd = new Comment(comment);
+                            commentToAdd.setCustomerName(customerName);
+                            commentToAdd.setRestaurantName(restaurantName);
+                            commentToAdd.setTimeComment(timeComment);
+
+                            customers.get(currentIndex).addComment(commentToAdd);
+
+                        } else if (command.startsWith("exit")) {
+
+                            System.out.println("Bye");
+                            break;
+
+                        } else {
+
+                            System.out.println("Unhandled Command");
+
+                        }
+                    }
 
             } catch (Exception e) {
+                System.out.println("Catch");
                 try {
                     this.socket.close();
                     this.dataOut.close();
@@ -133,7 +329,7 @@ class ClientHandler implements Runnable {
 
         data += "[";
         for (int i = 0; i < customers.get(index).getComments().size(); i++) {
-            data += customers.get(index).getComments().get(i).getComment() + ", ";
+            data += customers.get(index).getComments().get(i).getComment() + ":" + customers.get(index).getComments().get(i).getReply() + ", ";
         }
         data += "]& ";
 
@@ -164,7 +360,6 @@ class Main {
     public static void main(String[] args) throws IOException {
 
         Server server = new Server(8080);
-
 
 
     }
