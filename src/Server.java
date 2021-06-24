@@ -458,35 +458,6 @@ class ClientHandler implements Runnable {
         }
 
 
-
-
-
-        ////////////////////////////////////                                   restaurants data                         /////////////////////////////////
-
-
-        for (Restaurant restaurant:restaurants) {
-            data+=  restaurant.getName()+"^"+
-                    restaurant.getAddress().getAddress()+"^"+
-                    restaurant.getAddress().getLongitude()+"^"+
-                    restaurant.getAddress().getLatitude() +"^"+
-                    restaurant.getPhoneNumber()+"^"+
-                    restaurant.getPassword()+"^"+
-                    restaurant.getSendingRangeRadius()+"^"+
-                    restaurant.getId()+"^"+
-                    restaurant.getDays()+"^"+
-                    restaurant.getHour()+"^"+
-                    restaurant.getDays()+"^"+
-
-
-            ;
-            for (Food.TypeFood typeFood:restaurant.getTypeFoods()) {
-                data+=typeFood+"::";
-            }
-            data+="^";
-
-        }
-
-
         return data;
     }
 
