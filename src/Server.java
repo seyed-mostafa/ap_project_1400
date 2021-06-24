@@ -134,6 +134,16 @@ class ClientHandler implements Runnable {
                         restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setAvailable(available);
                         restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setTypeFood(typeFood);
 
+                    } else if (command.startsWith("location")) { //format: location::address(String)::longitude::latitude
+
+                        String[] list = command.split("::");
+
+                        String address = list[1];
+                        double longitude = Double.parseDouble(list[2]);
+                        double latitude = Double.parseDouble(list[3]);
+
+                        restaurants.get(currentIndex).setAddress(new Location(address, longitude, latitude));
+
                     } else if (command.startsWith("comment")) {
 
 
@@ -222,43 +232,23 @@ class ClientHandler implements Runnable {
                             int inputWallet = Integer.parseInt(command.substring(8));
                             customers.get(currentIndex).setWallet(inputWallet);
 
-                        } else if (command.startsWith("bag")) { //format: bag::restaurantName::price::restaurantId::customerAddress::food1,2&food2,5&...(food1=name@description@price@discount@typefood)
+                        } else if (command.startsWith("addToBag")) { //format: addToBag::foodIndex::count::restaurantId
 
                             String[] list = command.split("::");
 
-                            String customerName = customers.get(currentIndex).getName();
-                            String restaurantName = list[1];
-                            int price = Integer.parseInt(list[2]);
+                            int foodIndex = Integer.parseInt(list[1]);
+                            int count = Integer.parseInt(list[2]);
                             int restaurantId = Integer.parseInt(list[3]);
-                            Location customerAddress = customers.get(currentIndex).getAddress(); //ToDo read from client
-                            Location restaurantAddress = restaurants.get(0).getAddress();
-                            for (Restaurant restaurant : restaurants) {
-                                if (restaurant.getId() == restaurantId) {
-                                    restaurantAddress = restaurant.getAddress();
+                            int restaurantIndex = 0;
+
+                            for (int i = 0; i < restaurants.size(); i++) {
+                                if (restaurants.get(i).getId() == restaurantId) {
+                                    restaurantIndex = i;
                                     break;
                                 }
                             }
-                            LocalDateTime orderTime = LocalDateTime.now();
-                            Map<Food, Integer> order = new HashMap<Food, Integer>(); //ToDo read from client
-                            String[] orderMap = list[4].split("&");
-                            for (int i = 0; i < orderMap.length; i++) {
-                                String stringFood = orderMap[i].substring(0, orderMap[i].indexOf(","));
-                                int count = Integer.parseInt(orderMap[i].substring(orderMap[i].indexOf(",")));
-                                String[] foodData = stringFood.split("@");
-                                order.put(
-                                        new Food(foodData[0], foodData[1], Integer.parseInt(foodData[2]), Integer.parseInt(foodData[3]), true, Food.TypeFood.valueOf(foodData[4])),
-                                        count
-                                );
-                            }
 
-//                            Order orderToAdd = new Order(order, restaurantId);
-//                            orderToAdd.setCustomerName(customerName);
-//                            orderToAdd.setRestaurantName(restaurantName);
-//                            orderToAdd.setCustomerAddress(customerAddress);
-//                            orderToAdd.setRestaurantAddress(restaurantAddress);
-//                            orderToAdd.setPrice(price);
-//
-//                            customers.get(currentIndex).addShoppingCart(orderToAdd);
+                            customers.get(currentIndex).addShoppingCart(restaurants.get(restaurantIndex).getMenu().get(foodIndex), count, restaurantId);
 
                         } else if (command.startsWith("location")) { //format: location::address(String)::longitude::latitude
 
@@ -407,6 +397,13 @@ class ClientHandler implements Runnable {
                     restaurant.getId()+"#"+
                     restaurant.getDays()+"#"+
                     restaurant.getHour()+"#";
+                    restaurant.getId()+"^"+
+                    restaurant.getDays()+"^"+
+                    restaurant.getHour()+"^"+
+                    restaurant.getDays()+"^"
+
+
+            ;
             for (Food.TypeFood typeFood:restaurant.getTypeFoods()) {
                 data+=typeFood+"::";
             }
