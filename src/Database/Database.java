@@ -78,66 +78,27 @@ public class Database {
         restaurant1.addMenu(food20);
 
 
-        Food[] foodList1 = {food20, food18, food16, food14, food12};
-        Food[] foodList2 = {food10, food8, food6, food4, food2};
-        Food[] foodList3 = {food19, food17, food15, food13, food11};
-        Food[] foodList4 = {food9, food7, food5, food3, food1};
-        Food[] foodList5 = {food20, food19, food18, food17, food16};
-        Food[] foodList6 = {food15, food13, food11, food14, food12};
-        Food[] foodList7 = {food10, food9, food8, food7, food6};
-        Food[] foodList8 = {food5, food4, food3, food2, food1};
-        Food[] foodList9 = {food20, food15, food10, food5, food1};
-        Food[] foodList10= {food15, food12, food9, food6, food3};
 
-        Order order1 = new Order(Map.of(food1,2,food4,1,food13,5, food20,1),restaurant1.getId());
-        Order order2 = new Order(Map.of(food3,1, food6,1, food5,9),restaurant1.getId());
-        Order order3 = new Order(Map.of(food5,1, food7,1, food15,3),restaurant1.getId());
-        Order order4 = new Order(Map.of(food15,4, food10,1, food13,3),restaurant1.getId());
-        Order order5 = new Order(Map.of(food18,2, food9,1, food19,4),restaurant1.getId());
-        Order order6 = new Order(Map.of(food19,1, food2,5, food11,2, food16,3),restaurant1.getId());
-        Order order7 = new Order(Map.of(food18,2, food4,1),restaurant1.getId());
-        Order order8 = new Order(Map.of(food2,1, food4,1, food7,1, food6,2),restaurant1.getId());
-        Order order9 = new Order(Map.of(food15,1, food5,2, food8,3),restaurant1.getId());
-        Order order10 = new Order(Map.of(food14,4, food4,1, food10,2),restaurant1.getId());
-        Order order11 = new Order(Map.of(food9,3, food10,5, food8,1),restaurant1.getId());
+        Order order1 = new Order(food1,3,restaurant1.getId());
+        Order order2 = new Order(food4,4,restaurant1.getId());
+
 
         order1.setCustomerName("Ali Alavi");
         order2.setCustomerName("Naghi Naghavi");
-        order3.setCustomerName("Soltan Soltani");
-        order4.setCustomerName("Abbas Abbasi");
-        order5.setCustomerName("Mostafa Mostafai");
-        order6.setCustomerName("Gol Kharzare");
-        order7.setCustomerName("Pari Varparide");
-        order8.setCustomerName("Abdollah Nakhalaf");
-        order9.setCustomerName("Amir Booghi");
-        order10.setCustomerName("Noora Noori");
-        order11.setCustomerName("Pari Varparide");
+
 
 
         order1.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",34.717676891099835, 51.331243399093914));
         order2.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",35.717676891099835, 25.331243399093914));
-        order3.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",33.717676891099835, 25.331243399093914));
-        order4.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",32.717676891099835, 25.331243399093914));
-        order5.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",31.717676891099835, 25.331243399093914));
-        order6.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",35.717676891099835, 26.331243399093914));
-        order7.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",35.731750523607964, 51.47188366660937));
-        order8.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",35.717676891099835, 20.331243399093914));
-        order9.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",36.717676891099835, 25.331243399093914));
-        order10.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",36.717676891099835, 25.331243399093914));
-        order11.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",36.717676891099835, 25.331243399093914));
+
 
 
         order1.setStatus();
-        order3.setStatus();
-        order7.setStatus();
-        order5.setStatus();
-        order8.setStatus();
-        order9.setStatus();
-        order2.setStatus();
-        order6.setStatus();
 
 
-        Order[] orders = {order11, order10, order9, order8, order7, order6, order5, order4, order3, order2, order1};
+
+
+        Order[] orders = { order2, order1};
 
         for (Order order : orders){
             order.setRestaurantName(restaurant1.getName());
@@ -254,16 +215,21 @@ public class Database {
 
 
 
-        Customer customer1 = new Customer("Ali", "Alavi", "09123456790", "123");
-        customer1.addFavoriteRestaurant(restaurants.get(0));
+        Customer customer1 = new Customer("Ali", "Alavi", "1", "1");
+        customer1.addFavoriteRestaurant(restaurants.get(0).getId());
+        customer1.addAddress("asas",233.21,3243.24);
 
 
         customer1.addComment(comment3);
         customer1.addComment(comment7);
 
-        customer1.addShoppingCart(order1.getOrder(), restaurant1.getId());
-        customer1.addShoppingCart(order4.getOrder(), restaurant1.getId());
-        customer1.addShoppingCart(order2.getOrder(), restaurant1.getId());
+        customer1.addShoppingCart(food1,3, restaurant1.getId());
+        customer1.addShoppingCart(food4, 2, restaurant1.getId());
+        customer1.addShoppingCart(food6,1, restaurant1.getId());
+        for(Order order : customer1.getShoppingCart()){
+            order.setRestaurantName(restaurant1.getName());
+            order.setRestaurantAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",34.7176769835, 51.39093914));
+        }
 //        customer1.getShoppingCart().indexOf(0).setRestaurantName(restaurant[0].getName());
 //        customer1.getShoppingCart()[0].setRestaurantAddressString(" Tehran Province, Tehran, District 7, Mir Emad St &, Shahid Motahari St");
 

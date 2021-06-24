@@ -1,29 +1,24 @@
 package Objects;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Comment {
-    String comment, reply, customerName, restaurantName;
-    LocalDateTime timeComment, timeReply;
+    String comment, reply, customerName, restaurantName,timeComment, timeReply;
+
 
     public Comment(String comment) {
         this.comment =comment;
-        timeComment = LocalDateTime.now();
+        timeComment = DateTimeFormatter.ofPattern("dd MMM HH:mm").format(LocalDateTime.now());
     }
     public void setReply(String reply){
         this.reply =reply;
-        timeReply = LocalDateTime.now();
+        timeReply = DateTimeFormatter.ofPattern("dd MMM HH:mm").format(LocalDateTime.now());
     }
     public void setRestaurantName(String restaurantName){
         this.restaurantName =restaurantName;
     }
     public void setCustomerName(String customerName){
         this.customerName =customerName;
-    }
-    public void setTimeComment(LocalDateTime  localDateTime) {
-        this.timeComment = localDateTime;
-    }
-    public void setTimeReply(LocalDateTime localDateTime) {
-        this.timeReply = localDateTime;
     }
     public String getComment(){
         return comment;
@@ -37,10 +32,10 @@ public class Comment {
     public String getCustomerName(){
         return customerName;
     }
-    public LocalDateTime getTimeComment(){
+    public String getTimeComment(){
         return timeComment;
     }
-    public LocalDateTime getTimeReply(){
+    public String getTimeReply(){
         return timeReply;
     }
 }

@@ -59,7 +59,7 @@ class ClientHandler implements Runnable {
 
                 //Registering Page
                 String dataRegisteringString = dataIn.readLine(); //format: Registering::nameRegistering::phoneNumber::password::address(String)::longitude::latitude::range::foodType1,foodType2,...
-                String [] dataRegistering = dataRegisteringString.split("::");
+                String[] dataRegistering = dataRegisteringString.split("::");
                 String nameRigestering = dataRegistering[1];
                 String phoneNumber = dataRegistering[2];
                 String password = dataRegistering[3];
@@ -67,11 +67,11 @@ class ClientHandler implements Runnable {
                 double lon = Double.parseDouble(dataRegistering[5]);
                 double lat = Double.parseDouble(dataRegistering[6]);
                 int range = Integer.parseInt(dataRegistering[7]);
-                String [] typeFoodRegistering = dataRegistering[8].split(",");
+                String[] typeFoodRegistering = dataRegistering[8].split(",");
 
                 Restaurant restaurantToAdd = new Restaurant(nameRigestering, new Location(addressString, lat, lon), phoneNumber, password);
                 restaurantToAdd.setSendingRangeRadius(range);
-                for (String type: typeFoodRegistering) {
+                for (String type : typeFoodRegistering) {
                     restaurantToAdd.addTypeFood(Food.TypeFood.valueOf(type));
                 }
 
@@ -103,7 +103,7 @@ class ClientHandler implements Runnable {
 
                     } else if (command.startsWith("addFood")) { //format: addFood::name::description::price::discount::typeFood
 
-                        String [] list = command.split("::");
+                        String[] list = command.split("::");
 
                         String name = list[1];
                         String description = list[2];
@@ -117,7 +117,7 @@ class ClientHandler implements Runnable {
 
                     } else if (command.startsWith("changeFood")) { //format: changeFood::foodIndexToChange::name::description::price::discount::available::typeFood
 
-                        String [] list = command.split("::");
+                        String[] list = command.split("::");
 
                         int foodIndexToChange = 0;
                         String name = list[2];
@@ -179,21 +179,21 @@ class ClientHandler implements Runnable {
                 inputPasswordEnter = clientMessage.substring(clientMessage.lastIndexOf(':') + 2);
                 System.out.println(inputPasswordEnter);
 
-                //Registering Page
-                String dataRegisteringString = dataIn.readLine(); //format: Registering::firstName::lastName::phoneNumber::password::address(String)::longitude::latitude
-                String [] dataRegistering = dataRegisteringString.split("::");
-                String firstName = dataRegistering[1];
-                String lastName = dataRegistering[2];
-                String phoneNumber = dataRegistering[3];
-                String password = dataRegistering[4];
-                String addressString = dataRegistering[5];
-                double lon = Double.parseDouble(dataRegistering[6]);
-                double lat = Double.parseDouble(dataRegistering[7]);
-
-                Customer customerToAdd = new Customer(firstName, lastName, phoneNumber, password);
-                customerToAdd.addAddress(addressString, lon, lat);
-
-                customers.add(customerToAdd);
+//                //Registering Page
+//                String dataRegisteringString = dataIn.readLine(); //format: Registering::firstName::lastName::phoneNumber::password::address(String)::longitude::latitude
+//                String[] dataRegistering = dataRegisteringString.split("::");
+//                String firstName = dataRegistering[1];
+//                String lastName = dataRegistering[2];
+//                String phoneNumber = dataRegistering[3];
+//                String password = dataRegistering[4];
+//                String addressString = dataRegistering[5];
+//                double lon = Double.parseDouble(dataRegistering[6]);
+//                double lat = Double.parseDouble(dataRegistering[7]);
+//
+//                Customer customerToAdd = new Customer(firstName, lastName, phoneNumber, password);
+//                customerToAdd.addAddress(addressString, lon, lat);
+//
+//                customers.add(customerToAdd);
 
                 for (int i = 0; i < Database.customers.size(); i++) {
                     if (customers.get(i).getPhoneNumber().equals(inputPhoneNumberEnter) && customers.get(i).getPassword().equals(inputPasswordEnter)) {
@@ -230,9 +230,9 @@ class ClientHandler implements Runnable {
                             String restaurantName = list[1];
                             int price = Integer.parseInt(list[2]);
                             int restaurantId = Integer.parseInt(list[3]);
-                            Location customerAddress = customers.get(currentIndex).getAddress().get(0); //ToDo read from client
+                            Location customerAddress = customers.get(currentIndex).getAddress(); //ToDo read from client
                             Location restaurantAddress = restaurants.get(0).getAddress();
-                            for (Restaurant restaurant: restaurants) {
+                            for (Restaurant restaurant : restaurants) {
                                 if (restaurant.getId() == restaurantId) {
                                     restaurantAddress = restaurant.getAddress();
                                     break;
@@ -246,23 +246,23 @@ class ClientHandler implements Runnable {
                                 int count = Integer.parseInt(orderMap[i].substring(orderMap[i].indexOf(",")));
                                 String[] foodData = stringFood.split("@");
                                 order.put(
-                                    new Food(foodData[0], foodData[1], Integer.parseInt(foodData[2]), Integer.parseInt(foodData[3]), true, Food.TypeFood.valueOf(foodData[4])),
+                                        new Food(foodData[0], foodData[1], Integer.parseInt(foodData[2]), Integer.parseInt(foodData[3]), true, Food.TypeFood.valueOf(foodData[4])),
                                         count
                                 );
                             }
 
-                            Order orderToAdd = new Order(order, restaurantId);
-                            orderToAdd.setCustomerName(customerName);
-                            orderToAdd.setRestaurantName(restaurantName);
-                            orderToAdd.setCustomerAddress(customerAddress);
-                            orderToAdd.setRestaurantAddress(restaurantAddress);
-                            orderToAdd.setPrice(price);
-
-                            customers.get(currentIndex).addShoppingCart(orderToAdd);
+//                            Order orderToAdd = new Order(order, restaurantId);
+//                            orderToAdd.setCustomerName(customerName);
+//                            orderToAdd.setRestaurantName(restaurantName);
+//                            orderToAdd.setCustomerAddress(customerAddress);
+//                            orderToAdd.setRestaurantAddress(restaurantAddress);
+//                            orderToAdd.setPrice(price);
+//
+//                            customers.get(currentIndex).addShoppingCart(orderToAdd);
 
                         } else if (command.startsWith("location")) { //format: location::address(String)::longitude::latitude
 
-                            String [] list = command.split("::");
+                            String[] list = command.split("::");
 
                             String address = list[1];
                             double longitude = Double.parseDouble(list[2]);
@@ -273,7 +273,7 @@ class ClientHandler implements Runnable {
                         } else if (command.startsWith("favorite")) { //favorite::restaurantIndex
 
                             int favoriteRestaurantToAdd = Integer.parseInt(command.substring(10));
-                            customers.get(currentIndex).addFavoriteRestaurant(restaurants.get(favoriteRestaurantToAdd));
+                          //  customers.get(currentIndex).addFavoriteRestaurant(restaurants.get(favoriteRestaurantToAdd));
 
                         } else if (command.startsWith("comment")) { //comment::comment(String)::restaurantName
 
@@ -286,7 +286,7 @@ class ClientHandler implements Runnable {
                             Comment commentToAdd = new Comment(comment);
                             commentToAdd.setCustomerName(customerName);
                             commentToAdd.setRestaurantName(restaurantName);
-                            commentToAdd.setTimeComment(timeComment);
+                            //commentToAdd.setTimeComment(timeComment);
 
                             customers.get(currentIndex).addComment(commentToAdd);
 
@@ -321,17 +321,69 @@ class ClientHandler implements Runnable {
 
         String data = "";
 
-        data += customers.get(index).getName() + "& ";
-        data += customers.get(index).getLastName() + "& ";
-        data += customers.get(index).getPhoneNumber() + "& ";
-        data += customers.get(index).getPassword() + "& ";
-        data += customers.get(index).getWallet() + "& ";
+        data += customers.get(index).getName() + "&";
+        data += customers.get(index).getLastName() + "&";
+        data += customers.get(index).getPhoneNumber() + "&";
+        data += customers.get(index).getPassword() + "&";
+        data += customers.get(index).getWallet() + "&";
+        data += customers.get(index).getAddress().getAddress() + "&";
+        data += customers.get(index).getAddress().getLatitude() + "&";
+        data += customers.get(index).getAddress().getLongitude() + "&";
 
-        data += "[";
+
+        ////////////////////         comment         ///////////////////
+
         for (int i = 0; i < customers.get(index).getComments().size(); i++) {
-            data += customers.get(index).getComments().get(i).getComment() + ":" + customers.get(index).getComments().get(i).getReply() + ", ";
+            Comment comment = customers.get(index).getComments().get(i);
+            data += comment.getComment() + "^" + comment.getRestaurantName() + "^" + comment.getTimeComment() + "^" + comment.getReply() + "^" + comment.getTimeReply() + "^^";
         }
-        data += "]& ";
+        data = data.substring(0, data.length() - 1);
+        data += "&";
+
+
+        ////////////////////////             favoriteRestaurant          ///////////////
+
+        for (Integer restaurant : customers.get(index).getFavoriteRestaurant()) {
+            data += restaurant;
+        }
+        data = data.substring(0, data.length() - 1);
+        data += "&";
+
+
+
+        /////////////////////////               shoppingCart            ////////////////
+
+        for (Order order : customers.get(index).getShoppingCart()) {
+            data += order.getStatus() + order.getRestaurantName() + "^" +
+                    order.getRestaurantId() + "^" + order.getOrderTime() + "^" + order.getRestaurantAddress().getAddress() + "^" +
+                    order.getRestaurantAddress().getLatitude() + "^" + order.getRestaurantAddress().getLongitude() + "^";
+            for (Food food : order.getOrder().keySet()) {
+                data += food.getName() + "::" + food.getDescription() + "::" + food.getPrice() + "::" + food.getDiscount() + "::" +
+                        food.getAvailable() + "::" + food.getTypeFood() + "::" + order.getOrder().get(food) + ":::";
+            }
+            data=data.substring(0,data.length()-3);
+            data+="^^";
+        }
+        data=data.substring(0,data.length()-2);
+       // data+="&";
+
+
+
+        /////////////////////////               Orders            ////////////////
+
+//        for (Order order : customers.get(index).getPreviousOrders()) {
+//            data += order.getStatus() + "^" + order.getRestaurantName() + "^" +
+//                    order.getRestaurantId() + "^" + order.getOrderTime() + "^" + order.getRestaurantAddress().getAddress() + "^" +
+//                    order.getRestaurantAddress().getLatitude() + "^" + order.getRestaurantAddress().getLongitude() + "^";
+//            for (Food food : order.getOrder().keySet()) {
+//                data += food.getName() + "::" + food.getDescription() + "::" + food.getPrice() + "::" + food.getDiscount() + "::" +
+//                        food.getAvailable() + "::" + food.getTypeFood() + "::" + order.getOrder().get(food) + ":::";
+//            }
+//            data=data.substring(0,data.length()-1);
+//            data+="^^";
+//        }
+//        data=data.substring(0,data.length()-1);
+//        data+="&";
 
 
         return data;

@@ -1,34 +1,28 @@
 package Objects;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Order {
 
-    String customerName, restaurantName;
+    String customerName,orderTime, deliveryTime, restaurantName;
     int id, price =0,restaurantId;
     boolean status =false;
     Location customerAddress,restaurantAddress;
     static int count =99246000;
-    LocalDateTime orderTime, deliveryTime;
+
     Map<Food,Integer> order=new HashMap<Food,Integer>();
 
 
 
-    public Order(Map<Food, Integer> order, int restaurantId) {
+    public Order(Food food,int i, int restaurantId) {
         this.restaurantId=restaurantId;
-        orderTime = LocalDateTime.now();
-        this.order=order;
+        orderTime = DateTimeFormatter.ofPattern("dd MMM HH:mm").format(LocalDateTime.now());
         count++;
         id = count;
-        for(Food food :order.keySet()){
-            if(food.getDiscount()!=0)
-                price += ((food.getPrice()*(100-food.getDiscount()))/100*order.get(food));
-            else
-                price += (food.getPrice()*order.get(food));
-        }
-
+        order.put(food, i);
     }
 
     public void setCustomerAddress(Location customerAddress) {
@@ -56,7 +50,7 @@ public class Order {
     }
 
     public void setDeliveryTime(){
-        deliveryTime = LocalDateTime.now();
+        deliveryTime = DateTimeFormatter.ofPattern("dd MMM HH:mm").format(LocalDateTime.now());
     }
 
     public void setPrice(int price) {
@@ -64,6 +58,13 @@ public class Order {
     }
 
     public int getPrice(){
+        price=0;
+        for(Food food :order.keySet()){
+            if(food.getDiscount()!=0)
+                price += ((food.getPrice()*(100-food.getDiscount()))/100*order.get(food));
+            else
+                price += (food.getPrice()*order.get(food));
+        }
         return price;
     }
 
@@ -83,12 +84,16 @@ public class Order {
         return customerName;
     }
 
-    public LocalDateTime getOrderTime() {
+    public String getOrderTime() {
         return orderTime;
     }
 
-    public LocalDateTime getDeliveryTime() {
+    public String getDeliveryTime() {
         return deliveryTime;
+    }
+
+    public int getRestaurantId() {
+        return restaurantId;
     }
 
     public int getId(){
@@ -97,5 +102,9 @@ public class Order {
 
     public Map <Food,Integer> getOrder(){
         return order;
+    }
+
+    public void addFood(Food food, int i) {
+        order.put(food,i);
     }
 }

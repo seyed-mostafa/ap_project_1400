@@ -2,6 +2,7 @@ package Objects;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -9,9 +10,9 @@ public class Customer  {
 
     String firstName, lastName, phoneNumber, password;
     int wallet = 0;
-    private ArrayList<Location> address = new ArrayList<Location>();
+    private Location address;
     private ArrayList<Comment> comments = new ArrayList<Comment>();
-    private ArrayList<Restaurant> favoriteRestaurant= new ArrayList<Restaurant>();
+    private ArrayList<Integer> favoriteRestaurant= new ArrayList<Integer>();
     private ArrayList<Order> shoppingCart = new ArrayList<Order>();
     private ArrayList<Order> orders = new ArrayList<Order>();
 
@@ -47,7 +48,7 @@ public class Customer  {
     }
 
     public void addAddress(String address,double longitude,double latitude){
-        this.address.add(new Location(address, longitude, latitude));
+        this.address=new Location(address, longitude, latitude);
 
     }
 
@@ -55,19 +56,16 @@ public class Customer  {
         shoppingCart.remove(order);
     }
 
-    public void addShoppingCart(Map<Food,Integer> order, int restaurantId) {
-//        for (Order order : shoppingCart){
-//            if (order.getRestaurantId() == restaurantId) {
-//                order.addFood(food, i);
-//                return;
-//            }
-//        }
-        shoppingCart.add(new Order(order, restaurantId));
+    public void addShoppingCart(Food food,int i, int restaurantId) {
+        for (Order order : shoppingCart){
+            if (order.getRestaurantId() == restaurantId) {
+                order.addFood(food, i);
+                return;
+            }
+        }
+        shoppingCart.add(new Order(food,i, restaurantId));
     }
 
-    public void addShoppingCart(Order oreder) {
-        shoppingCart.add(oreder);
-    }
 
     public void addPreviousOrders(Order order) {
         orders.add(order);
@@ -77,7 +75,7 @@ public class Customer  {
         this.comments.add(comment);
     }
 
-    public void addFavoriteRestaurant(Restaurant favoriteRestaurant) {
+    public void addFavoriteRestaurant(Integer favoriteRestaurant) {
         this.favoriteRestaurant.add(favoriteRestaurant);
     }
 
@@ -106,7 +104,7 @@ public class Customer  {
         return wallet;
     }
 
-    public ArrayList<Location> getAddress() {
+    public Location getAddress() {
         return address;
     }
 
@@ -122,7 +120,7 @@ public class Customer  {
         return comments;
     }
 
-    public ArrayList<Restaurant> getFavoriteRestaurant() {
+    public ArrayList<Integer> getFavoriteRestaurant() {
         return favoriteRestaurant;
     }
 }
