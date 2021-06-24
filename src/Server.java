@@ -406,8 +406,7 @@ class ClientHandler implements Runnable {
                     restaurant.getSendingRangeRadius()+"^"+
                     restaurant.getId()+"#"+
                     restaurant.getDays()+"#"+
-                    restaurant.getHour()+"#"+
-                    restaurant.getDays()+"#";
+                    restaurant.getHour()+"#";
             for (Food.TypeFood typeFood:restaurant.getTypeFoods()) {
                 data+=typeFood+"::";
             }
