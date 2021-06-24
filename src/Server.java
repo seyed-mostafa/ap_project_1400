@@ -397,13 +397,6 @@ class ClientHandler implements Runnable {
                     restaurant.getId()+"#"+
                     restaurant.getDays()+"#"+
                     restaurant.getHour()+"#";
-                    restaurant.getId()+"^"+
-                    restaurant.getDays()+"^"+
-                    restaurant.getHour()+"^"+
-                    restaurant.getDays()+"^"
-
-
-            ;
             for (Food.TypeFood typeFood:restaurant.getTypeFoods()) {
                 data+=typeFood+"::";
             }

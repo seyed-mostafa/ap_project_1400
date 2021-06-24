@@ -136,7 +136,6 @@ public class Restaurant {
     }
 
 
-
     public ArrayList<Integer> getOnlineSales(){
         return onlineSales;
     }
