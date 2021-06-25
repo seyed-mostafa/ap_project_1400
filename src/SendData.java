@@ -1,7 +1,4 @@
-import Objects.Comment;
-import Objects.Food;
-import Objects.Order;
-import Objects.Restaurant;
+import Objects.*;
 
 import static Database.Database.customers;
 import static Database.Database.restaurants;

@@ -1,18 +1,14 @@
-import Database.Database;
+import Database.*;
 import Objects.*;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import static Database.Database.*;
+import java.io.*;
+
+import java.net.*;
+import java.time.LocalDateTime;
+
+import static Database.Database.customers;
+import static Database.Database.restaurants;
 
 class ClientHandler implements Runnable {
     static int clientCounter = 1;
@@ -41,60 +37,7 @@ class ClientHandler implements Runnable {
         if (who.equals("Seller")) {
 
             try {
-                //Entering Page
-                boolean validUser = false;
-                int currentIndex = 0;
-                String clientMessage = "";
-                String inputPhoneNumberEnter = "";
-                String inputPasswordEnter = "";
-
-                clientMessage = dataIn.readLine();
-                System.out.println(clientMessage);
-
-                inputPhoneNumberEnter = clientMessage.substring(7, clientMessage.lastIndexOf(','));
-                System.out.println(inputPhoneNumberEnter);
-                inputPasswordEnter = clientMessage.substring(clientMessage.lastIndexOf(':') + 2);
-                System.out.println(inputPasswordEnter);
-
-
-                //Registering Page
-                String dataRegisteringString = dataIn.readLine(); //format: Registering::nameRegistering::phoneNumber::password::address(String)::longitude::latitude::range::foodType1,foodType2,...
-                String[] dataRegistering = dataRegisteringString.split("::");
-                String nameRigestering = dataRegistering[1];
-                String phoneNumber = dataRegistering[2];
-                String password = dataRegistering[3];
-                String addressString = dataRegistering[4];
-                double lon = Double.parseDouble(dataRegistering[5]);
-                double lat = Double.parseDouble(dataRegistering[6]);
-                int range = Integer.parseInt(dataRegistering[7]);
-                String[] typeFoodRegistering = dataRegistering[8].split(",");
-
-                Restaurant restaurantToAdd = new Restaurant(nameRigestering, new Location(addressString, lat, lon), phoneNumber, password);
-                restaurantToAdd.setSendingRangeRadius(range);
-                for (String type : typeFoodRegistering) {
-                    restaurantToAdd.addTypeFood(Food.TypeFood.valueOf(type));
-                }
-
-                restaurants.add(restaurantToAdd);
-
-
-                for (int i = 0; i < restaurants.size(); i++) {
-                    if (customers.get(i).getPhoneNumber().equals(inputPhoneNumberEnter) && customers.get(i).getPassword().equals(inputPasswordEnter)) {
-                        validUser = true;
-                        currentIndex = i;
-                        break;
-                    }
-                }
-
-                if (validUser) {
-                    dataOut.writeBytes("true" + SendData.data(currentIndex));
-                    System.out.println("User was True, index : " + currentIndex);
-                } else {
-                    dataOut.writeBytes("false");
-                    System.out.println("User was not True");
-                }
-
-
+                int currentIndex = checkUserAndSndData.check(dataIn ,dataOut);
                 while (true) {
 
                     String command = dataIn.readLine();
