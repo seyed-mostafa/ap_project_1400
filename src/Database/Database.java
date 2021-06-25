@@ -35,6 +35,12 @@ public class Database {
                 new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
                         34.717676891099835, 51.331243399093914), "09123456782", "123");
 
+        restaurant1.setSendingRangeRadius(800);
+        restaurant1.setDays("shanbe ta pangshnbe");
+        restaurant1.setHour("as saat 13 ta 23");
+        for(TypeFood typeFood:TypeFood.values())
+             restaurant1.addTypeFood(typeFood);
+
         Food food1 = new Food("ghorme", "description1", 25000, 0, true, TypeFood.PersianFood);
         Food food2 = new Food("gheime", "description2", 30000, 20, true, TypeFood.PersianFood);
         Food food3 = new Food("makhsoos", "description3", 25000, 0, true, TypeFood.Pizza);
