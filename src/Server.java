@@ -373,6 +373,7 @@ class ClientHandler implements Runnable {
             data+="^^";
         }
         data=data.substring(0,data.length()-2);
+        data+="&";
 
 
 
@@ -445,6 +446,8 @@ class ClientHandler implements Runnable {
         data+="#";
 
         }
+        data+="end";
+
 
 
         return data;
