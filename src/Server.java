@@ -87,7 +87,7 @@ class ClientHandler implements Runnable {
                 }
 
                 if (validUser) {
-                    dataOut.writeBytes("true" + data(currentIndex));
+                    dataOut.writeBytes("true" + SendData.data(currentIndex));
                     System.out.println("User was True, index : " + currentIndex);
                 } else {
                     dataOut.writeBytes("false");
@@ -133,6 +133,16 @@ class ClientHandler implements Runnable {
                         restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setDiscount(discount);
                         restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setAvailable(available);
                         restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setTypeFood(typeFood);
+
+                    } else if (command.startsWith("location")) { //format: location::address(String)::longitude::latitude
+
+                        String[] list = command.split("::");
+
+                        String address = list[1];
+                        double longitude = Double.parseDouble(list[2]);
+                        double latitude = Double.parseDouble(list[3]);
+
+                        restaurants.get(currentIndex).setAddress(new Location(address, longitude, latitude));
 
                     } else if (command.startsWith("comment")) {
 
@@ -204,7 +214,8 @@ class ClientHandler implements Runnable {
                 }
 
                 if (validUser) {
-                    dataOut.writeBytes("true" + data(currentIndex));
+                    dataOut.writeBytes("true" + SendData.data(currentIndex));
+                    //dataOut.flush();
                     System.out.println("User was True, index : " + currentIndex);
                 } else {
                     dataOut.writeBytes("false");
@@ -222,43 +233,23 @@ class ClientHandler implements Runnable {
                             int inputWallet = Integer.parseInt(command.substring(8));
                             customers.get(currentIndex).setWallet(inputWallet);
 
-                        } else if (command.startsWith("bag")) { //format: bag::restaurantName::price::restaurantId::customerAddress::food1,2&food2,5&...(food1=name@description@price@discount@typefood)
+                        } else if (command.startsWith("addToBag")) { //format: addToBag::foodIndex::count::restaurantId
 
                             String[] list = command.split("::");
 
-                            String customerName = customers.get(currentIndex).getName();
-                            String restaurantName = list[1];
-                            int price = Integer.parseInt(list[2]);
+                            int foodIndex = Integer.parseInt(list[1]);
+                            int count = Integer.parseInt(list[2]);
                             int restaurantId = Integer.parseInt(list[3]);
-                            Location customerAddress = customers.get(currentIndex).getAddress(); //ToDo read from client
-                            Location restaurantAddress = restaurants.get(0).getAddress();
-                            for (Restaurant restaurant : restaurants) {
-                                if (restaurant.getId() == restaurantId) {
-                                    restaurantAddress = restaurant.getAddress();
+                            int restaurantIndex = 0;
+
+                            for (int i = 0; i < restaurants.size(); i++) {
+                                if (restaurants.get(i).getId() == restaurantId) {
+                                    restaurantIndex = i;
                                     break;
                                 }
                             }
-                            LocalDateTime orderTime = LocalDateTime.now();
-                            Map<Food, Integer> order = new HashMap<Food, Integer>(); //ToDo read from client
-                            String[] orderMap = list[4].split("&");
-                            for (int i = 0; i < orderMap.length; i++) {
-                                String stringFood = orderMap[i].substring(0, orderMap[i].indexOf(","));
-                                int count = Integer.parseInt(orderMap[i].substring(orderMap[i].indexOf(",")));
-                                String[] foodData = stringFood.split("@");
-                                order.put(
-                                        new Food(foodData[0], foodData[1], Integer.parseInt(foodData[2]), Integer.parseInt(foodData[3]), true, Food.TypeFood.valueOf(foodData[4])),
-                                        count
-                                );
-                            }
 
-//                            Order orderToAdd = new Order(order, restaurantId);
-//                            orderToAdd.setCustomerName(customerName);
-//                            orderToAdd.setRestaurantName(restaurantName);
-//                            orderToAdd.setCustomerAddress(customerAddress);
-//                            orderToAdd.setRestaurantAddress(restaurantAddress);
-//                            orderToAdd.setPrice(price);
-//
-//                            customers.get(currentIndex).addShoppingCart(orderToAdd);
+                            customers.get(currentIndex).addShoppingCart(restaurants.get(restaurantIndex).getMenu().get(foodIndex), count, restaurantId);
 
                         } else if (command.startsWith("location")) { //format: location::address(String)::longitude::latitude
 
@@ -273,7 +264,7 @@ class ClientHandler implements Runnable {
                         } else if (command.startsWith("favorite")) { //favorite::restaurantIndex
 
                             int favoriteRestaurantToAdd = Integer.parseInt(command.substring(10));
-                          //  customers.get(currentIndex).addFavoriteRestaurant(restaurants.get(favoriteRestaurantToAdd));
+                            //  customers.get(currentIndex).addFavoriteRestaurant(restaurants.get(favoriteRestaurantToAdd));
 
                         } else if (command.startsWith("comment")) { //comment::comment(String)::restaurantName
 
@@ -317,177 +308,6 @@ class ClientHandler implements Runnable {
 
     }
 
-    private String data(int index) {
-
-        String data = "";
-
-        data += customers.get(index).getName() + "&";
-        data += customers.get(index).getLastName() + "&";
-        data += customers.get(index).getPhoneNumber() + "&";
-        data += customers.get(index).getPassword() + "&";
-        data += customers.get(index).getWallet() + "&";
-        data += customers.get(index).getAddress().getAddress() + "&";
-        data += customers.get(index).getAddress().getLatitude() + "&";
-        data += customers.get(index).getAddress().getLongitude() + "&";
-
-
-        ////////////////////         comment         ///////////////////
-
-        for (int i = 0; i < customers.get(index).getComments().size(); i++) {
-            Comment comment = customers.get(index).getComments().get(i);
-            data += comment.getComment() + "^" + comment.getRestaurantName() + "^" + comment.getTimeComment() + "^" + comment.getReply() + "^" + comment.getTimeReply() + "^^";
-        }
-        data = data.substring(0, data.length() - 1);
-        data += "&";
-
-
-        ////////////////////////             favoriteRestaurant          ///////////////
-
-        for (Integer restaurant : customers.get(index).getFavoriteRestaurant()) {
-            data += restaurant;
-        }
-        data = data.substring(0, data.length() - 1);
-        data += "&";
-
-
-
-        /////////////////////////               shoppingCart            ////////////////
-
-        for (Order order : customers.get(index).getShoppingCart()) {
-            data += order.getStatus() + order.getRestaurantName() + "^" +
-                    order.getRestaurantId() + "^" + order.getOrderTime() + "^" + order.getRestaurantAddress().getAddress() + "^" +
-                    order.getRestaurantAddress().getLatitude() + "^" + order.getRestaurantAddress().getLongitude() + "^";
-            for (Food food : order.getOrder().keySet()) {
-                data += food.getName() + "::" + food.getDescription() + "::" + food.getPrice() + "::" + food.getDiscount() + "::" +
-                        food.getAvailable() + "::" + food.getTypeFood() + "::" + order.getOrder().get(food) + ":::";
-            }
-            data=data.substring(0,data.length()-3);
-            data+="^^";
-        }
-        data=data.substring(0,data.length()-2);
-       // data+="&";
-
-
-
-        /////////////////////////               Orders            ////////////////
-
-        for (Order order : customers.get(index).getPreviousOrders()) {
-            data += order.getStatus() + "^" + order.getRestaurantName() + "^" +
-                    order.getRestaurantId() + "^" + order.getOrderTime() + "^" + order.getRestaurantAddress().getAddress() + "^" +
-                    order.getRestaurantAddress().getLatitude() + "^" + order.getRestaurantAddress().getLongitude() + "^";
-            for (Food food : order.getOrder().keySet()) {
-                data += food.getName() + "::" + food.getDescription() + "::" + food.getPrice() + "::" + food.getDiscount() + "::" +
-                        food.getAvailable() + "::" + food.getTypeFood() + "::" + order.getOrder().get(food) + ":::";
-            }
-            data=data.substring(0,data.length()-3);
-            data+="^^";
-        }
-        data=data.substring(0,data.length()-2);
-
-
-
-
-
-
-
-
-
-
-        ////////////////////////////////////////////////////////                                   restaurants data                         /////////////////////////////////
-
-
-        for (Restaurant restaurant:restaurants) {
-            data+=  restaurant.getName()+"#"+
-                    restaurant.getAddress().getAddress()+"#"+
-                    restaurant.getAddress().getLongitude()+"#"+
-                    restaurant.getAddress().getLatitude() +"#"+
-                    restaurant.getPhoneNumber()+"#"+
-                    restaurant.getPassword()+"#"+
-                    restaurant.getSendingRangeRadius()+"^"+
-                    restaurant.getId()+"#"+
-                    restaurant.getDays()+"#"+
-                    restaurant.getHour()+"#";
-            for (Food.TypeFood typeFood:restaurant.getTypeFoods()) {
-                data+=typeFood+"::";
-            }
-            data=data.substring(0,data.length()-2);
-            data+="#";
-
-
-            /////////////////////////////////                       menu            /////////////////////
-
-            for (Food food : restaurant.getMenu()) {
-                data += food.getName() + "::" + food.getDescription() + "::" + food.getPrice() + "::" + food.getDiscount() + "::" +
-                        food.getAvailable() + "::" + food.getTypeFood()+":::" ;
-            }
-            data=data.substring(0,data.length()-3);
-            data+="#";
-
-
-            /////////////////////////////////                   comments           /////////////////////
-
-            for (Comment comment : restaurant.getComments() ) {
-                data += comment.getComment() + "::" + comment.getCustomerName() + "::" +comment.getRestaurantName() + "::" + comment.getTimeComment() + "::" +
-                        comment.getReply() + "::" + comment.getTimeReply() + ":::";
-            }
-            data = data.substring(0, data.length() - 3);
-            data += "#";
-
-
-            /////////////////////////////////                   orders           /////////////////////
-
-            for (Order order : restaurant.getOrders()) {
-            data += order.getStatus() + "^" +
-                    order.getCustomerName() + "^" +
-                    order.getOrderTime() + "^" +
-                    order.getCustomerAddress().getAddress() + "^" +
-                    order.getCustomerAddress().getLatitude() + "^" +
-                    order.getCustomerAddress().getLongitude() + "^"+
-                    order.getId()+"^";
-            for (Food food : order.getOrder().keySet()) {
-                data += food.getName() + "::" + food.getDescription() + "::" + food.getPrice() + "::" + food.getDiscount() + "::" +
-                        food.getAvailable() + "::" + food.getTypeFood() + "::" + order.getOrder().get(food) + ":::";
-            }
-            data=data.substring(0,data.length()-3);
-            data+="^^";
-        }
-        data=data.substring(0,data.length()-2);
-        data+="#";
-
-        }
-
-
-
-
-
-        ////////////////////////////////////                                   restaurants data                         /////////////////////////////////
-
-
-        for (Restaurant restaurant:restaurants) {
-            data+=  restaurant.getName()+"^"+
-                    restaurant.getAddress().getAddress()+"^"+
-                    restaurant.getAddress().getLongitude()+"^"+
-                    restaurant.getAddress().getLatitude() +"^"+
-                    restaurant.getPhoneNumber()+"^"+
-                    restaurant.getPassword()+"^"+
-                    restaurant.getSendingRangeRadius()+"^"+
-                    restaurant.getId()+"^"+
-                    restaurant.getDays()+"^"+
-                    restaurant.getHour()+"^"+
-                    restaurant.getDays()+"^"+
-
-
-            ;
-            for (Food.TypeFood typeFood:restaurant.getTypeFoods()) {
-                data+=typeFood+"::";
-            }
-            data+="^";
-
-        }
-
-
-        return data;
-    }
 
 }
 
@@ -516,4 +336,3 @@ class Main {
 
     }
 }
-

@@ -39,6 +39,12 @@ public class Database {
         restaurant1.setDays("shanbe ta pangshnbe");
         restaurant1.setHour("as saat 13 ta 23");
         for(TypeFood typeFood:TypeFood.values())
+            restaurant1.addTypeFood(typeFood);
+
+        restaurant1.setSendingRangeRadius(800);
+        restaurant1.setDays("shanbe ta pangshnbe");
+        restaurant1.setHour("as saat 13 ta 23");
+        for(TypeFood typeFood:TypeFood.values())
              restaurant1.addTypeFood(typeFood);
 
         Food food1 = new Food("ghorme", "description1", 25000, 0, true, TypeFood.PersianFood);
