@@ -121,7 +121,7 @@ public class SendData {
                         comment.getReply() + "::" + comment.getTimeReply() + ":::";
             }
             data = data.substring(0, data.length() - 3);
-            data += "#";
+            data += "##";
 
 
             /////////////////////////////////                   orders           /////////////////////
@@ -145,6 +145,7 @@ public class SendData {
 //        data+="#";
 
         }
+        data = data.substring(0, data.length() - 2);
         data+="end";
 
 

@@ -5,47 +5,71 @@ import Objects.*;
 import Objects.Food.TypeFood;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Database {
 
-    public static ArrayList<Restaurant> restaurants= new ArrayList<>();
-    public static ArrayList<Customer> customers= new ArrayList<>();
-
+    public static ArrayList<Restaurant> restaurants = new ArrayList<>();
+    public static ArrayList<Customer> customers = new ArrayList<>();
 
 
     private static Database database;
-    private Database() {}
+
+    private Database() {
+    }
+
     public static Database getDatabase() {
-        if(database == null) {
+        if (database == null) {
             database = new Database();
         }
         return database;
     }
 
 
-
-    static  {
+    static {
 
         /////////////////////////         add restaurant
 
+        Restaurant[] restaurant = {
+                new Restaurant("Reihoon",
+                        new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
+                                34.717676891099835, 51.331243399093914), "09123456780", "123")
 
-
-        Restaurant restaurant1 = new Restaurant("Reihoon",
+                , new Restaurant("Mashti",
                 new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
-                        34.717676891099835, 51.331243399093914), "09123456782", "123");
+                        34.717676891099835, 50.331243399093914), "09123456781", "123")
 
-        restaurant1.setSendingRangeRadius(800);
-        restaurant1.setDays("shanbe ta pangshnbe");
-        restaurant1.setHour("as saat 13 ta 23");
-        for(TypeFood typeFood:TypeFood.values())
-            restaurant1.addTypeFood(typeFood);
+                , new Restaurant("akbar jooje",
+                new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
+                        34.717676891099835, 50.331243399093914), "09123456783", "123")
 
-        restaurant1.setSendingRangeRadius(800);
-        restaurant1.setDays("shanbe ta pangshnbe");
-        restaurant1.setHour("as saat 13 ta 23");
-        for(TypeFood typeFood:TypeFood.values())
-             restaurant1.addTypeFood(typeFood);
+                , new Restaurant("asghar jooje",
+                new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
+                        34.717676891099835, 50.331243399093914), "09123456784", "123")
+
+                , new Restaurant("javanan",
+                new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
+                        34.717676891099835, 50.331243399093914), "09123456785", "123")
+
+                , new Restaurant("mostafa va abbas",
+                new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
+                        34.717676891099835, 50.331243399093914), "09123456786", "123")
+
+                , new Restaurant("Daneshjoo",
+                new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
+                        34.717676891099835, 50.331243399093914), "09123456787", "123")
+
+                , new Restaurant("bikaran",
+                new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
+                        34.717676891099835, 50.331243399093914), "09123456788", "123")
+
+                , new Restaurant("Bahar",
+                new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
+                        34.717676891099835, 50.331243399093914), "09123456789", "123")
+
+                , new Restaurant("topolooo",
+                new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
+                        34.717676891099835, 50.331243399093914), "09123456790", "123")};
+
 
         Food food1 = new Food("ghorme", "description1", 25000, 0, true, TypeFood.PersianFood);
         Food food2 = new Food("gheime", "description2", 30000, 20, true, TypeFood.PersianFood);
@@ -68,54 +92,54 @@ public class Database {
         Food food19 = new Food("ghorme kharegy", "description19", 25000, 50, true, TypeFood.International);
         Food food20 = new Food("ghorme kharegy", "description20", 8000, 0, true, TypeFood.International);
 
-        restaurant1.addMenu(food1);
-        restaurant1.addMenu(food2);
-        restaurant1.addMenu(food3);
-        restaurant1.addMenu(food4);
-        restaurant1.addMenu(food5);
-        restaurant1.addMenu(food6);
-        restaurant1.addMenu(food7);
-        restaurant1.addMenu(food8);
-        restaurant1.addMenu(food9);
-        restaurant1.addMenu(food10);
-        restaurant1.addMenu(food11);
-        restaurant1.addMenu(food12);
-        restaurant1.addMenu(food13);
-        restaurant1.addMenu(food14);
-        restaurant1.addMenu(food15);
-        restaurant1.addMenu(food16);
-        restaurant1.addMenu(food17);
-        restaurant1.addMenu(food18);
-        restaurant1.addMenu(food19);
-        restaurant1.addMenu(food20);
+
+        Food[] foods1 = {food20, food18, food16, food14, food12};
+        Food[] foods2 = {food10, food8, food6, food4, food2};
+        Food[] foods3 = {food19, food17, food15, food13, food11};
+        Food[] foods4 = {food9, food7, food5, food3, food1};
+        Food[] foods5 = {food20, food19, food18, food17, food16};
+        Food[] foods6 = {food15, food13, food11, food14, food12};
+        Food[] foods7 = {food10, food9, food8, food7, food6};
+        Food[] foods8 = {food5, food4, food3, food2, food1};
+        Food[] foods9 = {food20, food15, food10, food5, food1};
+        Food[] foods10 = {food15, food12, food9, food6, food3};
+
+        for (Restaurant res : restaurant)
+            restaurants.add(res);
+
+        restaurants.get(0).addAllMenu(foods1);
+        restaurants.get(2).addAllMenu(foods2);
+        restaurants.get(4).addAllMenu(foods3);
+        restaurants.get(6).addAllMenu(foods4);
+        restaurants.get(8).addAllMenu(foods5);
+        restaurants.get(1).addAllMenu(foods6);
+        restaurants.get(3).addAllMenu(foods7);
+        restaurants.get(5).addAllMenu(foods8);
+        restaurants.get(7).addAllMenu(foods9);
+        restaurants.get(9).addAllMenu(foods10);
 
 
 
-        Order order1 = new Order(food1,3,restaurant1.getId());
-        Order order2 = new Order(food4,4,restaurant1.getId());
 
+        Order order1 = new Order(food1, 3, restaurants.get(0).getId());
+        Order order2 = new Order(food4, 4, restaurants.get(0).getId());
 
         order1.setCustomerName("Ali Alavi");
         order2.setCustomerName("Naghi Naghavi");
 
-
-
-        order1.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",34.717676891099835, 51.331243399093914));
-        order2.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",35.717676891099835, 25.331243399093914));
-
-
+        order1.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)", 34.717676891099835, 51.331243399093914));
+        order2.setCustomerAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)", 35.717676891099835, 25.331243399093914));
 
         order1.setStatus();
 
+        Order[] orders = {order2, order1};
 
-
-
-        Order[] orders = { order2, order1};
-
-        for (Order order : orders){
-            order.setRestaurantName(restaurant1.getName());
-            restaurant1.addOrder(order);
+        for (Order order : orders) {
+            order.setRestaurantName(restaurants.get(0).getName());
+            restaurants.get(0).addOrder(order);
         }
+
+
         Comment comment = new Comment("ai khoda");
         Comment comment2 = new Comment("man dige rad dadam");
         Comment comment3 = new Comment("as dast in flutter");
@@ -144,103 +168,106 @@ public class Database {
         comment7.setRestaurantName("akbar jooje");
         comment8.setRestaurantName("akbar jooje");
 
-        restaurant1.addComment(comment);
-        restaurant1.addComment(comment2);
-        restaurant1.addComment(comment3);
-        restaurant1.addComment(comment4);
-        restaurant1.addComment(comment5);
-        restaurant1.addComment(comment6);
-        restaurant1.addComment(comment7);
-        restaurant1.addComment(comment8);
 
-        restaurant1.setCashSales(420);
-        restaurant1.setCashSales(400);
-        restaurant1.setCashSales(500);
-        restaurant1.setCashSales(600);
-        restaurant1.setCashSales(300);
-        restaurant1.setCashSales(700);
-        restaurant1.setCashSales(660);
-        restaurant1.setCashSales(500);
-        restaurant1.setCashSales(530);
-        restaurant1.setCashSales(610);
-        restaurant1.setCashSales(440);
-        restaurant1.setCashSales(460);
-        restaurant1.setCashSales(390);
-        restaurant1.setCashSales(360);
-        restaurant1.setCashSales(560);
-        restaurant1.setCashSales(550);
-        restaurant1.setCashSales(440);
-        restaurant1.setCashSales(390);
-        restaurant1.setCashSales(370);
-        restaurant1.setCashSales(650);
-        restaurant1.setCashSales(600);
-        restaurant1.setCashSales(550);
-        restaurant1.setCashSales(500);
-        restaurant1.setCashSales(300);
-        restaurant1.setCashSales(420);
-        restaurant1.setCashSales(330);
-        restaurant1.setCashSales(460);
-        restaurant1.setCashSales(520);
-        restaurant1.setCashSales(500);
-        restaurant1.setCashSales(400);
-
-        restaurant1.setOnlineSales(600);
-        restaurant1.setOnlineSales(900);
-        restaurant1.setOnlineSales(300);
-        restaurant1.setOnlineSales(300);
-        restaurant1.setOnlineSales(320);
-        restaurant1.setOnlineSales(400);
-        restaurant1.setOnlineSales(370);
-        restaurant1.setOnlineSales(660);
-        restaurant1.setOnlineSales(750);
-        restaurant1.setOnlineSales(600);
-        restaurant1.setOnlineSales(430);
-        restaurant1.setOnlineSales(460);
-        restaurant1.setOnlineSales(450);
-        restaurant1.setOnlineSales(340);
-        restaurant1.setOnlineSales(500);
-        restaurant1.setOnlineSales(550);
-        restaurant1.setOnlineSales(490);
-        restaurant1.setOnlineSales(450);
-        restaurant1.setOnlineSales(380);
-        restaurant1.setOnlineSales(570);
-        restaurant1.setOnlineSales(600);
-        restaurant1.setOnlineSales(650);
-        restaurant1.setOnlineSales(590);
-        restaurant1.setOnlineSales(480);
-        restaurant1.setOnlineSales(540);
-        restaurant1.setOnlineSales(440);
-        restaurant1.setOnlineSales(460);
-        restaurant1.setOnlineSales(490);
-        restaurant1.setOnlineSales(630);
-        restaurant1.setOnlineSales(500);
-
-        restaurants.add(restaurant1);
+        for (int i = 0; i < restaurants.size(); i++) {
+            restaurants.get(i).setSendingRangeRadius(i * 100 + 800);
+            restaurants.get(i).setDays("shanbe ta pangshnbe");
+            restaurants.get(i).setHour("as saat 13 ta 23");
+            restaurants.get(i).addComment(comment);
+            restaurants.get(i).addComment(comment2);
+            restaurants.get(i).addComment(comment3);
+            restaurants.get(i).addComment(comment4);
+            restaurants.get(i).addComment(comment5);
+            restaurants.get(i).addComment(comment6);
+            restaurants.get(i).addComment(comment7);
+            restaurants.get(i).addComment(comment8);
+            for (int j = 0; j < restaurants.get(i).getMenu().size(); j++) {
+                restaurants.get(i).addTypeFood(restaurants.get(i).getMenu().get(j).getTypeFood());
+            }
+        }
 
 
+
+        restaurants.get(0).setCashSales(420);
+        restaurants.get(0).setCashSales(400);
+        restaurants.get(0).setCashSales(500);
+        restaurants.get(0).setCashSales(600);
+        restaurants.get(0).setCashSales(300);
+        restaurants.get(0).setCashSales(700);
+        restaurants.get(0).setCashSales(660);
+        restaurants.get(0).setCashSales(500);
+        restaurants.get(0).setCashSales(530);
+        restaurants.get(0).setCashSales(610);
+        restaurants.get(0).setCashSales(440);
+        restaurants.get(0).setCashSales(460);
+        restaurants.get(0).setCashSales(390);
+        restaurants.get(0).setCashSales(360);
+        restaurants.get(0).setCashSales(560);
+        restaurants.get(0).setCashSales(550);
+        restaurants.get(0).setCashSales(440);
+        restaurants.get(0).setCashSales(390);
+        restaurants.get(0).setCashSales(370);
+        restaurants.get(0).setCashSales(650);
+        restaurants.get(0).setCashSales(600);
+        restaurants.get(0).setCashSales(550);
+        restaurants.get(0).setCashSales(500);
+        restaurants.get(0).setCashSales(300);
+        restaurants.get(0).setCashSales(420);
+        restaurants.get(0).setCashSales(330);
+        restaurants.get(0).setCashSales(460);
+        restaurants.get(0).setCashSales(520);
+        restaurants.get(0).setCashSales(500);
+        restaurants.get(0).setCashSales(400);
+
+        restaurants.get(0).setOnlineSales(600);
+        restaurants.get(0).setOnlineSales(900);
+        restaurants.get(0).setOnlineSales(300);
+        restaurants.get(0).setOnlineSales(300);
+        restaurants.get(0).setOnlineSales(320);
+        restaurants.get(0).setOnlineSales(400);
+        restaurants.get(0).setOnlineSales(370);
+        restaurants.get(0).setOnlineSales(660);
+        restaurants.get(0).setOnlineSales(750);
+        restaurants.get(0).setOnlineSales(600);
+        restaurants.get(0).setOnlineSales(430);
+        restaurants.get(0).setOnlineSales(460);
+        restaurants.get(0).setOnlineSales(450);
+        restaurants.get(0).setOnlineSales(340);
+        restaurants.get(0).setOnlineSales(500);
+        restaurants.get(0).setOnlineSales(550);
+        restaurants.get(0).setOnlineSales(490);
+        restaurants.get(0).setOnlineSales(450);
+        restaurants.get(0).setOnlineSales(380);
+        restaurants.get(0).setOnlineSales(570);
+        restaurants.get(0).setOnlineSales(600);
+        restaurants.get(0).setOnlineSales(650);
+        restaurants.get(0).setOnlineSales(590);
+        restaurants.get(0).setOnlineSales(480);
+        restaurants.get(0).setOnlineSales(540);
+        restaurants.get(0).setOnlineSales(440);
+        restaurants.get(0).setOnlineSales(460);
+        restaurants.get(0).setOnlineSales(490);
+        restaurants.get(0).setOnlineSales(630);
+        restaurants.get(0).setOnlineSales(500);
 
 
         /////////////////////////////    add customer
 
 
-
-
-
-
         Customer customer1 = new Customer("Ali", "Alavi", "1", "1");
         customer1.addFavoriteRestaurant(restaurants.get(0).getId());
-        customer1.addAddress("asas",233.21,3243.24);
+        customer1.addAddress("asas", 233.21, 3243.24);
 
 
         customer1.addComment(comment3);
         customer1.addComment(comment7);
 
-        customer1.addShoppingCart(food1,3, restaurant1.getId());
-        customer1.addShoppingCart(food4, 2, restaurant1.getId());
-        customer1.addShoppingCart(food6,1, restaurant1.getId());
-        for(Order order : customer1.getShoppingCart()){
-            order.setRestaurantName(restaurant1.getName());
-            order.setRestaurantAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",34.7176769835, 51.39093914));
+        customer1.addShoppingCart(food1, 3, restaurants.get(0).getId());
+        customer1.addShoppingCart(food4, 2, restaurants.get(0).getId());
+        customer1.addShoppingCart(food6, 1, restaurants.get(0).getId());
+        for (Order order : customer1.getShoppingCart()) {
+            order.setRestaurantName(restaurants.get(0).getName());
+            order.setRestaurantAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)", 34.7176769835, 51.39093914));
         }
 //        customer1.getShoppingCart().indexOf(0).setRestaurantName(restaurant[0].getName());
 //        customer1.getShoppingCart()[0].setRestaurantAddressString(" Tehran Province, Tehran, District 7, Mir Emad St &, Shahid Motahari St");

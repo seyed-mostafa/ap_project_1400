@@ -1,6 +1,5 @@
 package Objects;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Restaurant {
@@ -62,6 +61,11 @@ public class Restaurant {
     public void addMenu(Food food){
         menu.add(food);
     }
+    public void addAllMenu(Food[] foods){
+        for(Food food : foods)
+            menu.add(food);
+    }
+
 
     public int getId(){
         return id;
