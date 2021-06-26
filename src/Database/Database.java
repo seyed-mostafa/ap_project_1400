@@ -121,8 +121,8 @@ public class Database {
 
 
 
-        Order order1 = new Order(food1, 3, restaurants.get(0).getId());
-        Order order2 = new Order(food4, 4, restaurants.get(0).getId());
+        Order order1 = new Order(food20, 3, restaurants.get(0).getId());
+        Order order2 = new Order(food18, 4, restaurants.get(0).getId());
 
         order1.setCustomerName("Ali Alavi");
         order2.setCustomerName("Naghi Naghavi");
@@ -262,9 +262,9 @@ public class Database {
         customer1.addComment(comment3);
         customer1.addComment(comment7);
 
-        customer1.addShoppingCart(food1, 3, restaurants.get(0).getId());
-        customer1.addShoppingCart(food4, 2, restaurants.get(0).getId());
-        customer1.addShoppingCart(food6, 1, restaurants.get(0).getId());
+        customer1.addShoppingCart(food20, 3, restaurants.get(0).getId());
+        customer1.addShoppingCart(food18, 2, restaurants.get(0).getId());
+        customer1.addShoppingCart(food16, 1, restaurants.get(0).getId());
         for (Order order : customer1.getShoppingCart()) {
             order.setRestaurantName(restaurants.get(0).getName());
             order.setRestaurantAddress(new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)", 34.7176769835, 51.39093914));
