@@ -1,10 +1,10 @@
-import Database.*;
 import Objects.*;
 
-
-import java.io.*;
-
-import java.net.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.time.LocalDateTime;
 
 import static Database.Database.customers;
@@ -240,10 +240,17 @@ class ClientHandler implements Runnable {
 
                         customers.get(currentIndex).addAddress(address, longitude, latitude);
 
-                    } else if (command.startsWith("favorite")) { //favorite::restaurantIndex
+                    } else if (command.startsWith("addFavorite")) { //addFavorite::restaurantId
 
-                        int favoriteRestaurantToAdd = Integer.parseInt(command.substring(10));
-                        //  customers.get(currentIndex).addFavoriteRestaurant(restaurants.get(favoriteRestaurantToAdd));
+                        int favoriteRestaurantToAdd = Integer.parseInt(command.substring(13));
+                        customers.get(currentIndex).addFavoriteRestaurant(favoriteRestaurantToAdd);
+                        System.out.println(favoriteRestaurantToAdd+"added");
+
+                    } else if (command.startsWith("removeFavorite")) { //removeFavorite::restaurantId
+
+                        int favoriteRestaurantToAdd = Integer.parseInt(command.substring(16));
+                        customers.get(currentIndex).removeFromFavoriteRestaurant(favoriteRestaurantToAdd);
+                        System.out.println(favoriteRestaurantToAdd +"removed");
 
                     } else if (command.startsWith("comment")) { //comment::comment(String)::restaurantName
 

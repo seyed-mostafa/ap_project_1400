@@ -119,8 +119,6 @@ public class Database {
         restaurants.get(9).addAllMenu(foods10);
 
 
-
-
         Order order1 = new Order(food20, 3, restaurants.get(0).getId());
         Order order2 = new Order(food18, 4, restaurants.get(0).getId());
 
@@ -170,7 +168,13 @@ public class Database {
 
 
         for (int i = 0; i < restaurants.size(); i++) {
-            restaurants.get(i).setSendingRangeRadius(i * 100 + 800);
+
+            int min = 0;
+            int max = 50;
+            int random_int = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            restaurants.get(i).addRate(random_int/10);
+            restaurants.get(i).setSendingRangeRadius(random_int*100);
             restaurants.get(i).setDays("shanbe ta pangshnbe");
             restaurants.get(i).setHour("as saat 13 ta 23");
             restaurants.get(i).addComment(comment);
@@ -185,7 +189,6 @@ public class Database {
                 restaurants.get(i).addTypeFood(restaurants.get(i).getMenu().get(j).getTypeFood());
             }
         }
-
 
 
         restaurants.get(0).setCashSales(420);

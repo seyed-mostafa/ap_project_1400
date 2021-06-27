@@ -32,7 +32,7 @@ public class SendData {
         ////////////////////////             favoriteRestaurant          ///////////////
 
         for (Integer restaurant : customers.get(index).getFavoriteRestaurant()) {
-            data += restaurant;
+            data += restaurant+"^";
         }
         data = data.substring(0, data.length() - 1);
         data += "&";
@@ -117,8 +117,11 @@ public class SendData {
 
             for (Comment comment : restaurant.getComments() ) {
                 data += comment.getComment() + "::" + comment.getCustomerName() + "::" +
-                        comment.getRestaurantName() + "::" + comment.getTimeComment() + "::" +
-                        comment.getReply() + "::" + comment.getTimeReply() + ":::";
+                        comment.getRestaurantName() + "::" + comment.getTimeComment() + "::" ;
+                if (comment.getReply()!=null)
+                    data+= comment.getReply() + "::" + comment.getTimeReply() + ":::";
+                else
+                    data+=":";
             }
             data = data.substring(0, data.length() - 3);
             data += "##";
