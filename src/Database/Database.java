@@ -32,7 +32,7 @@ public class Database {
         Restaurant[] restaurant = {
                 new Restaurant("Reihoon",
                         new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
-                                34.717676891099835, 51.331243399093914), "09123456780", "123")
+                                34.717676891099835, 51.331243399093914), "1", "1")
 
                 , new Restaurant("Mashti",
                 new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",

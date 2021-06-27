@@ -5,7 +5,7 @@ import static Database.Database.restaurants;
 
 public class SendData {
     
-    public static String data(int index) {
+    public static String customerData(int index) {
 
         String data = "";
 
@@ -151,8 +151,91 @@ public class SendData {
         data = data.substring(0, data.length() - 2);
         data+="end";
 
-
-
         return data;
     }
+
+
+
+
+
+
+        public static String restaurantData(int index) {
+
+            String data = "";
+
+            Restaurant restaurant=restaurants.get(index);
+                data+=  restaurant.getName()+"#"+
+                        restaurant.getAddress().getAddress()+"#"+
+                        restaurant.getAddress().getLongitude()+"#"+
+                        restaurant.getAddress().getLatitude() +"#"+
+                        restaurant.getPhoneNumber()+"#"+
+                        restaurant.getPassword()+"#"+
+                        restaurant.getSendingRangeRadius()+"#"+
+                        restaurant.getId()+"#"+
+                        restaurant.getDays()+"#"+
+                        restaurant.getHour()+"#";
+                for (Food.TypeFood typeFood:restaurant.getTypeFoods()) {
+                    data+=typeFood+"::";
+                }
+                data=data.substring(0,data.length()-2);
+                data+="#";
+
+
+                /////////////////////////////////                       menu            /////////////////////
+
+                for (Food food : restaurant.getMenu()) {
+                    data += food.getName() + "::" + food.getDescription() + "::" + food.getPrice() + "::" + food.getDiscount() + "::" +
+                            food.getAvailable() + "::" + food.getTypeFood()+":::" ;
+                }
+                data=data.substring(0,data.length()-3);
+                data+="#";
+
+
+                /////////////////////////////////                   comments           /////////////////////
+
+                for (Comment comment : restaurant.getComments() ) {
+                    data += comment.getComment() + "::" + comment.getCustomerName() + "::" +
+                            comment.getRestaurantName() + "::" + comment.getTimeComment() + "::" ;
+                    if (comment.getReply()!=null)
+                        data+= comment.getReply() + "::" + comment.getTimeReply() + ":::";
+                    else
+                        data+=":";
+                }
+                data = data.substring(0, data.length() - 3);
+                data += "##";
+
+
+                /////////////////////////////////                   orders           /////////////////////
+
+//            for (Order order : restaurant.getOrders()) {
+//            data += order.getStatus() + "^" +
+//                    order.getCustomerName() + "^" +
+//                    order.getOrderTime() + "^" +
+//                    order.getCustomerAddress().getAddress() + "^" +
+//                    order.getCustomerAddress().getLatitude() + "^" +
+//                    order.getCustomerAddress().getLongitude() + "^"+
+//                    order.getId()+"^";
+//            for (Food food : order.getOrder().keySet()) {
+//                data += food.getName() + "::" + food.getDescription() + "::" + food.getPrice() + "::" + food.getDiscount() + "::" +
+//                        food.getAvailable() + "::" + food.getTypeFood() + "::" + order.getOrder().get(food) + ":::";
+//            }
+//            data=data.substring(0,data.length()-3);
+//            data+="^^";
+//        }
+//        data=data.substring(0,data.length()-2);
+//        data+="#";
+
+
+            data = data.substring(0, data.length() - 2);
+            data+="end";
+
+
+
+            return data;
+        }
+
+
+
+
+
 }
