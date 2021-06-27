@@ -12,17 +12,45 @@ public class Order {
     boolean status =false;
     Location customerAddress,restaurantAddress;
     static int count =99246000;
-
     Map<Food,Integer> order=new HashMap<Food,Integer>();
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "customerName='" + customerName + '\'' +
+                ", orderTime='" + orderTime + '\'' +
+                ", deliveryTime='" + deliveryTime + '\'' +
+                ", restaurantName='" + restaurantName + '\'' +
+                ", id=" + id +
+                ", price=" + price +
+                ", restaurantId=" + restaurantId +
+                ", status=" + status +
+                ", customerAddress=" + customerAddress +
+                ", restaurantAddress=" + restaurantAddress +
+                ", order=" + order +
+                '}';
+    }
 
-
-    public Order(Food food,int i, int restaurantId) {
+    public Order(Food food, int i, int restaurantId) {
         this.restaurantId=restaurantId;
         orderTime = DateTimeFormatter.ofPattern("dd MMM HH:mm").format(LocalDateTime.now());
         count++;
         id = count;
         order.put(food, i);
+    }
+
+    public  Order(String restaurantName,String customerName,String orderTime,Location customerAddress,Location restaurantAddress,int restaurantId,int id){
+        this.restaurantName=restaurantName;
+        this.customerName=customerName;
+        this.orderTime=orderTime;
+        this.customerAddress=customerAddress;
+        this.restaurantAddress=restaurantAddress;
+        this.restaurantId=restaurantId;
+        this.id = id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setCustomerAddress(Location customerAddress) {
@@ -51,6 +79,7 @@ public class Order {
 
     public void setDeliveryTime(){
         deliveryTime = DateTimeFormatter.ofPattern("dd MMM HH:mm").format(LocalDateTime.now());
+        status=!status;
     }
 
     public void setPrice(int price) {

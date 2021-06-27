@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 
 import static Database.Database.customers;
 import static Database.Database.restaurants;
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
 
 class ClientHandler implements Runnable {
     static int clientCounter = 1;
@@ -74,9 +76,9 @@ class ClientHandler implements Runnable {
                         String phoneNumber = dataRegistering[2];
                         String password = dataRegistering[3];
                         String addressString = dataRegistering[4];
-                        double lon = Double.parseDouble(dataRegistering[5]);
-                        double lat = Double.parseDouble(dataRegistering[6]);
-                        int range = Integer.parseInt(dataRegistering[7]);
+                        double lon = parseDouble(dataRegistering[5]);
+                        double lat = parseDouble(dataRegistering[6]);
+                        int range = parseInt(dataRegistering[7]);
                         String[] typeFoodRegistering = dataRegistering[8].split(",");
 
                         Restaurant restaurantToAdd = new Restaurant(nameRegistering, new Location(addressString, lat, lon), phoneNumber, password);
@@ -95,8 +97,8 @@ class ClientHandler implements Runnable {
 
                         String name = list[1];
                         String description = list[2];
-                        int price = Integer.parseInt(list[3]);
-                        int discount = Integer.parseInt(list[4]);
+                        int price = parseInt(list[3]);
+                        int discount = parseInt(list[4]);
                         boolean available = true; //ToDo
                         Food.TypeFood typeFood = Food.TypeFood.valueOf(list[5]);
 
@@ -110,8 +112,8 @@ class ClientHandler implements Runnable {
                         int foodIndexToChange = 0;
                         String name = list[2];
                         String description = list[3];
-                        int price = Integer.parseInt(list[4]);
-                        int discount = Integer.parseInt(list[5]);
+                        int price = parseInt(list[4]);
+                        int discount = parseInt(list[5]);
                         boolean available = Boolean.getBoolean(list[6]);
                         Food.TypeFood typeFood = Food.TypeFood.valueOf(list[7]);
 
@@ -127,8 +129,8 @@ class ClientHandler implements Runnable {
                         String[] list = command.split("::");
 
                         String address = list[1];
-                        double longitude = Double.parseDouble(list[2]);
-                        double latitude = Double.parseDouble(list[3]);
+                        double longitude = parseDouble(list[2]);
+                        double latitude = parseDouble(list[3]);
 
                         restaurants.get(currentIndex).setAddress(new Location(address, longitude, latitude));
 
@@ -199,8 +201,8 @@ class ClientHandler implements Runnable {
                         String phoneNumber = dataRegistering[3];
                         String password = dataRegistering[4];
                         String addressString = dataRegistering[5];
-                        double lon = Double.parseDouble(dataRegistering[6]);
-                        double lat = Double.parseDouble(dataRegistering[7]);
+                        double lon = parseDouble(dataRegistering[6]);
+                        double lat = parseDouble(dataRegistering[7]);
 
                         Customer customerToAdd = new Customer(firstName, lastName, phoneNumber, password);
                         customerToAdd.addAddress(addressString, lon, lat);
@@ -209,46 +211,57 @@ class ClientHandler implements Runnable {
 
                     } else if (command.startsWith("wallet")) { //format: wallet::1000
 
-                        int inputWallet = Integer.parseInt(command.substring(8));
+                        int inputWallet = parseInt(command.substring(8));
                         customers.get(currentIndex).setWallet(inputWallet);
 
-                    } else if (command.startsWith("addToBag")) { //format: addToBag::foodIndex::count::restaurantId
+                    } else if (command.startsWith("addToOrders")) {
+  //format: addToOrders::restaurantName::orderTime::restaurantAddress::restaurantAddress::restaurantAddress::restaurantId::id::Map<food,int>
 
                         String[] list = command.split("::");
-
-                        int foodIndex = Integer.parseInt(list[1]);
-                        int count = Integer.parseInt(list[2]);
-                        int restaurantId = Integer.parseInt(list[3]);
+                        Order order=new Order(
+                                list[1],customers.get(currentIndex).getName(),list[2],customers.get(currentIndex).getAddress().getLocation(),
+                                new Location(list[3],parseDouble(list[4]),parseDouble(list[5])),parseInt(list[6]),parseInt(list[7]));
                         int restaurantIndex = 0;
-
                         for (int i = 0; i < restaurants.size(); i++) {
-                            if (restaurants.get(i).getId() == restaurantId) {
+                            if (restaurants.get(i).getId() == parseInt(list[6])) {
                                 restaurantIndex = i;
                                 break;
                             }
                         }
+                        String[] list2=list[8].split("&");
+                        for (String str : list2) {
+                            String[] string=str.split("\\^");
+                            String food=string[0];
+                            int number=parseInt(string[1]);
+                            for (Food menuFood : restaurants.get(restaurantIndex).getMenu()) {
+                                if (menuFood.getName().equals(food)) {
+                                    order.addFood(menuFood,number);
+                                }
+                            }
+                        }
 
-                        customers.get(currentIndex).addShoppingCart(restaurants.get(restaurantIndex).getMenu().get(foodIndex), count, restaurantId);
+                        customers.get(currentIndex).addPreviousOrders(order);
+                        System.out.println(order.toString());
 
                     } else if (command.startsWith("location")) { //format: location::address(String)::longitude::latitude
 
                         String[] list = command.split("::");
 
                         String address = list[1];
-                        double longitude = Double.parseDouble(list[2]);
-                        double latitude = Double.parseDouble(list[3]);
+                        double longitude = parseDouble(list[2]);
+                        double latitude = parseDouble(list[3]);
 
                         customers.get(currentIndex).addAddress(address, longitude, latitude);
 
                     } else if (command.startsWith("addFavorite")) { //addFavorite::restaurantId
 
-                        int favoriteRestaurantToAdd = Integer.parseInt(command.substring(13));
+                        int favoriteRestaurantToAdd = parseInt(command.substring(13));
                         customers.get(currentIndex).addFavoriteRestaurant(favoriteRestaurantToAdd);
                         System.out.println(favoriteRestaurantToAdd+"added");
 
                     } else if (command.startsWith("removeFavorite")) { //removeFavorite::restaurantId
 
-                        int favoriteRestaurantToAdd = Integer.parseInt(command.substring(16));
+                        int favoriteRestaurantToAdd = parseInt(command.substring(16));
                         customers.get(currentIndex).removeFromFavoriteRestaurant(favoriteRestaurantToAdd);
                         System.out.println(favoriteRestaurantToAdd +"removed");
 
@@ -280,6 +293,7 @@ class ClientHandler implements Runnable {
                 }
 
             } catch (Exception e) {
+                System.out.println(e.toString());
                 System.out.println("Catch");
                 try {
                     this.socket.close();
