@@ -141,8 +141,13 @@ class ClientHandler implements Runnable {
 
                         restaurants.get(currentIndex).setAddress(new Location(address, longitude, latitude));
 
-                    } else if (command.startsWith("comment")) {
-
+                    } else if (command.startsWith("addReply")) {   // format:   addReply::comment::reply
+                        String[] list = command.split("::");
+                        for (Comment comment : restaurants.get(currentIndex).getComments()) {
+                            if(comment.getComment().equals(list[1])){
+                                comment.setReply(list[2]);
+                            }
+                        }
 
                     } else if (command.startsWith("exit")) {
 
