@@ -100,13 +100,15 @@ class ClientHandler implements Runnable {
 
                         restaurants.add(restaurantToAdd);
 
-                    } else if (command.startsWith("setDelivered")) {
+                    } else if (command.startsWith("setDelivered")) {    //format: setDelivered::orderId::status
 
                         String[] list = command.split("::");
                         for (Order order : restaurants.get(currentIndex).getOrders()) {
-                            if (order.getId() == parseInt(list[1]))
+                            if (order.getId() == parseInt(list[1])){
                                 order.setStatusSeller(list[2].equals("true") ? true : false);
+                            }
                         }
+
 
                     } else if (command.startsWith("addFood")) { // format:
                                                                 // addFood::name::description::price::discount::typeFood
@@ -286,7 +288,7 @@ class ClientHandler implements Runnable {
 
                         customers.get(currentIndex).addPreviousOrders(order);
                         restaurants.get(restaurantIndex).addOrder(order);
-                        System.out.println(order.toString());
+
 
                     } else if (command.startsWith("location")) { // format:
                                                                  // location::address(String)::longitude::latitude
