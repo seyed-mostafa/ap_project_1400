@@ -202,32 +202,25 @@ public class SendData {
                         data+=":";
                 }
                 data = data.substring(0, data.length() - 3);
-                data += "##";
+                data += "#";
 
 
                 /////////////////////////////////                   orders           /////////////////////
 
-//            for (Order order : restaurant.getOrders()) {
-//            data += order.getStatus() + "^" +
-//                    order.getCustomerName() + "^" +
-//                    order.getOrderTime() + "^" +
-//                    order.getCustomerAddress().getAddress() + "^" +
-//                    order.getCustomerAddress().getLatitude() + "^" +
-//                    order.getCustomerAddress().getLongitude() + "^"+
-//                    order.getId()+"^";
-//            for (Food food : order.getOrder().keySet()) {
-//                data += food.getName() + "::" + food.getDescription() + "::" + food.getPrice() + "::" + food.getDiscount() + "::" +
-//                        food.getAvailable() + "::" + food.getTypeFood() + "::" + order.getOrder().get(food) + ":::";
-//            }
-//            data=data.substring(0,data.length()-3);
-//            data+="^^";
-//        }
-//        data=data.substring(0,data.length()-2);
-//        data+="#";
+            for (Order order : restaurant.getOrders()) {
+            data += order.getStatus() + "^" +
+                    order.getCustomerName() + "^" +
+                    order.getOrderTime() + "^" +
+                    order.getCustomerAddress().getAddress() + "^" +
+                    order.getCustomerAddress().getLatitude() + "^" +
+                    order.getCustomerAddress().getLongitude() + "^"+
+                    order.getId()+"^";
+            for (Food food : order.getOrder().keySet()) {
+                data += food.getName() + "::" + order.getOrder().get(food) + ":::";
+            }
+            }
+            data=data.substring(0,data.length()-3);
 
-
-            data = data.substring(0, data.length() - 2);
-            data+="end";
 
 
 

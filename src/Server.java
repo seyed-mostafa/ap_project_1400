@@ -65,6 +65,7 @@ class ClientHandler implements Runnable {
                         if (validUser) {
                             dataOut.writeBytes("true" + SendData.restaurantData(currentIndex));
                             System.out.println("User was True, index : " + currentIndex);
+                            System.out.println(SendData.restaurantData(currentIndex));
                         } else {
                             dataOut.writeBytes("false");
                             System.out.println("User was not True");
