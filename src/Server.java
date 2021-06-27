@@ -167,7 +167,7 @@ class ClientHandler implements Runnable {
                 while (true) {
 
                     String command = dataIn.readLine();
-                    System.out.println(command);
+                    System.out.println(clientCounter+command);
 
                     if (command.startsWith("Entering")) { //format: Entering::phone::password
 
@@ -185,6 +185,7 @@ class ClientHandler implements Runnable {
                         }
 
                         if (validUser) {
+                            dataOut.writeUTF("salam");
                             dataOut.writeBytes("true" + SendData.data(currentIndex));
                             System.out.println("User was True, index : " + currentIndex);
                         } else {
@@ -242,7 +243,7 @@ class ClientHandler implements Runnable {
 
                         customers.get(currentIndex).addPreviousOrders(order);
                         System.out.println(order.toString());
-
+                        dataOut.writeBytes("salam");
                     } else if (command.startsWith("location")) { //format: location::address(String)::longitude::latitude
 
                         String[] list = command.split("::");
