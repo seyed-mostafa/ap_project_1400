@@ -213,6 +213,7 @@ public class SendData {
                 /////////////////////////////////                   orders           /////////////////////
             if (restaurant.getOrders().size()==0)
                 data+="null###";
+            System.out.println("size = "+restaurant.getOrders().size());
             for (Order order : restaurant.getOrders()) {
             data += order.getStatus() + "^" +
                     order.getCustomerName() + "^" +
@@ -224,8 +225,10 @@ public class SendData {
             for (Food food : order.getOrder().keySet()) {
                 data += food.getName() + "::" + order.getOrder().get(food) + ":::";
             }
-            }
             data=data.substring(0,data.length()-3);
+            data+="%";
+            }
+            data=data.substring(0,data.length()-1);
             data += "#";
 
 

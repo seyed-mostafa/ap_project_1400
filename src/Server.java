@@ -49,7 +49,7 @@ class ClientHandler implements Runnable {
                     if (command.contains("Seller")) {
                         command = dataIn.readLine();
                     }
-                    System.out.println(clientCounter + " " + command);
+                    System.out.println(command);
 
                     if (command.startsWith("Entering")) { // format: Entering::phone::password
 
@@ -209,7 +209,7 @@ class ClientHandler implements Runnable {
                         String inputPhoneNumberEnter = list[1];
                         String inputPasswordEnter = list[2];
 
-                        for (int i = 0; i < restaurants.size(); i++) {
+                        for (int i = 0; i < customers.size(); i++) {
                             if (customers.get(i).getPhoneNumber().equals(inputPhoneNumberEnter)
                                     && customers.get(i).getPassword().equals(inputPasswordEnter)) {
                                 validUser = true;
@@ -226,6 +226,7 @@ class ClientHandler implements Runnable {
                             dataOut.writeBytes("false");
                             System.out.println("User was not True");
                         }
+                        dataOut.flush();
 
                     } else if (command.startsWith("Registering")) { // format:
                                                                     // Registering::firstName::lastName::phoneNumber::password::address(String)::longitude::latitude
