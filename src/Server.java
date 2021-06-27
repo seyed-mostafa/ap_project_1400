@@ -45,20 +45,24 @@ class ClientHandler implements Runnable {
                 while (true) {
 
                     String command = dataIn.readLine();
-                    if (command.contains("Seller")){
-                        command=dataIn.readLine();
-                    }
-                    System.out.println(clientCounter+" "+command);
 
-                    if (command.startsWith("Entering")) { //format: Entering::phone::password
+                    if (command.contains("Seller")) {
+                        command = dataIn.readLine();
+                    }
+                    System.out.println(clientCounter + " " + command);
+
+                    if (command.startsWith("Entering")) { // format: Entering::phone::password
 
                         boolean validUser = false;
-                        String [] list = command.split("::");
+                        String[] list = command.split("::");
                         String inputPhoneNumberEnter = list[1];
                         String inputPasswordEnter = list[2];
 
                         for (int i = 0; i < restaurants.size(); i++) {
-                            if (customers.get(i).getPhoneNumber().equals(inputPhoneNumberEnter) && customers.get(i).getPassword().equals(inputPasswordEnter)) {
+                            System.out.println(restaurants.get(i).getPhoneNumber() + ", " + inputPhoneNumberEnter + ", "
+                                    + restaurants.get(i).getPassword() + ", " + inputPasswordEnter);
+                            if (restaurants.get(i).getPhoneNumber().equals(inputPhoneNumberEnter)
+                                    && restaurants.get(i).getPassword().equals(inputPasswordEnter)) {
                                 validUser = true;
                                 currentIndex = i;
                                 break;
@@ -74,7 +78,8 @@ class ClientHandler implements Runnable {
                             System.out.println("User was not True");
                         }
 
-                    } else if (command.startsWith("Registering")) { //format: Registering::nameRegistering::phoneNumber::password::address(String)::longitude::latitude::range::foodType1,foodType2,...
+                    } else if (command.startsWith("Registering")) { // format:
+                                                                    // Registering::nameRegistering::phoneNumber::password::address(String)::longitude::latitude::range::foodType1,foodType2,...
 
                         String[] dataRegistering = command.split("::");
                         String nameRegistering = dataRegistering[1];
@@ -86,7 +91,8 @@ class ClientHandler implements Runnable {
                         int range = parseInt(dataRegistering[7]);
                         String[] typeFoodRegistering = dataRegistering[8].split(",");
 
-                        Restaurant restaurantToAdd = new Restaurant(nameRegistering, new Location(addressString, lat, lon), phoneNumber, password);
+                        Restaurant restaurantToAdd = new Restaurant(nameRegistering,
+                                new Location(addressString, lat, lon), phoneNumber, password);
                         restaurantToAdd.setSendingRangeRadius(range);
                         for (String type : typeFoodRegistering) {
                             restaurantToAdd.addTypeFood(Food.TypeFood.valueOf(type));
@@ -98,11 +104,12 @@ class ClientHandler implements Runnable {
 
                         String[] list = command.split("::");
                         for (Order order : restaurants.get(currentIndex).getOrders()) {
-                            if(order.getId()==parseInt(list[1]))
-                                order.setStatusSeller(list[2].equals("true") ? true: false);
+                            if (order.getId() == parseInt(list[1]))
+                                order.setStatusSeller(list[2].equals("true") ? true : false);
                         }
 
-                    } else if (command.startsWith("addFood")) { //format: addFood::name::description::price::discount::typeFood
+                    } else if (command.startsWith("addFood")) { // format:
+                                                                // addFood::name::description::price::discount::typeFood
 
                         String[] list = command.split("::");
 
@@ -118,7 +125,8 @@ class ClientHandler implements Runnable {
                         restaurants.get(currentIndex).getMenu().add(food);
                         System.out.println("Add Successfully!!");
 
-                    } else if (command.startsWith("changeFood")) { //format: changeFood::foodIndexToChange::name::description::price::discount::available::typeFood
+                    } else if (command.startsWith("changeFood")) { // format:
+                                                                   // changeFood::foodIndexToChange::name::description::price::discount::available::typeFood
 
                         String[] list = command.split("::");
 
@@ -140,7 +148,8 @@ class ClientHandler implements Runnable {
 
                         System.out.println("Change Successfully!!");
 
-                    } else if (command.startsWith("location")) { //format: location::address(String)::longitude::latitude
+                    } else if (command.startsWith("location")) { // format:
+                                                                 // location::address(String)::longitude::latitude
 
                         String[] list = command.split("::");
 
@@ -150,10 +159,10 @@ class ClientHandler implements Runnable {
 
                         restaurants.get(currentIndex).setAddress(new Location(address, longitude, latitude));
 
-                    } else if (command.startsWith("addReply")) {   // format:   addReply::comment::reply
+                    } else if (command.startsWith("addReply")) { // format: addReply::comment::reply
                         String[] list = command.split("::");
                         for (Comment comment : restaurants.get(currentIndex).getComments()) {
-                            if(comment.getComment().equals(list[1])){
+                            if (comment.getComment().equals(list[1])) {
                                 comment.setReply(list[2]);
                             }
                         }
@@ -170,8 +179,8 @@ class ClientHandler implements Runnable {
                     }
                 }
 
-
             } catch (Exception e) {
+                System.out.println("catch");
                 try {
                     this.socket.close();
                     this.dataOut.close();
@@ -188,17 +197,21 @@ class ClientHandler implements Runnable {
                 while (true) {
 
                     String command = dataIn.readLine();
-                    System.out.println(clientCounter+command);
+                    if (command.contains("Customer")) {
+                        command = dataIn.readLine();
+                    }
+                    System.out.println(clientCounter + command);
 
-                    if (command.startsWith("Entering")) { //format: Entering::phone::password
+                    if (command.startsWith("Entering")) { // format: Entering::phone::password
 
                         boolean validUser = false;
-                        String [] list = command.split("::");
+                        String[] list = command.split("::");
                         String inputPhoneNumberEnter = list[1];
                         String inputPasswordEnter = list[2];
 
                         for (int i = 0; i < restaurants.size(); i++) {
-                            if (customers.get(i).getPhoneNumber().equals(inputPhoneNumberEnter) && customers.get(i).getPassword().equals(inputPasswordEnter)) {
+                            if (customers.get(i).getPhoneNumber().equals(inputPhoneNumberEnter)
+                                    && customers.get(i).getPassword().equals(inputPasswordEnter)) {
                                 validUser = true;
                                 currentIndex = i;
                                 break;
@@ -214,10 +227,10 @@ class ClientHandler implements Runnable {
                             System.out.println("User was not True");
                         }
 
-                    } else if (command.startsWith("Registering")) { //format: Registering::firstName::lastName::phoneNumber::password::address(String)::longitude::latitude
+                    } else if (command.startsWith("Registering")) { // format:
+                                                                    // Registering::firstName::lastName::phoneNumber::password::address(String)::longitude::latitude
 
-                        String dataRegisteringString = dataIn.readLine();
-                        String[] dataRegistering = dataRegisteringString.split("::");
+                        String[] dataRegistering = command.split("::");
                         String firstName = dataRegistering[1];
                         String lastName = dataRegistering[2];
                         String phoneNumber = dataRegistering[3];
@@ -226,23 +239,31 @@ class ClientHandler implements Runnable {
                         double lon = parseDouble(dataRegistering[6]);
                         double lat = parseDouble(dataRegistering[7]);
 
+                        System.out.println("before customerToAdd");
+
                         Customer customerToAdd = new Customer(firstName, lastName, phoneNumber, password);
                         customerToAdd.addAddress(addressString, lon, lat);
 
+                        System.out.println("before adding");
+
                         customers.add(customerToAdd);
 
-                    } else if (command.startsWith("wallet")) { //format: wallet::1000
+                        System.out.println("Registered successfully!!!!!");
+
+                    } else if (command.startsWith("wallet")) { // format: wallet::1000
 
                         int inputWallet = parseInt(command.substring(8));
                         customers.get(currentIndex).setWallet(inputWallet);
 
                     } else if (command.startsWith("addToOrders")) {
-  //format: addToOrders::restaurantName::orderTime::restaurantAddress::restaurantAddress::restaurantAddress::restaurantId::id::Map<food,int>
+                        // format:
+                        // addToOrders::restaurantName::orderTime::restaurantAddress::restaurantAddress::restaurantAddress::restaurantId::id::Map<food,int>
 
                         String[] list = command.split("::");
-                        Order order=new Order(
-                                list[1],customers.get(currentIndex).getName(),list[2],customers.get(currentIndex).getAddress().getLocation(),
-                                new Location(list[3],parseDouble(list[4]),parseDouble(list[5])),parseInt(list[6]),parseInt(list[7]));
+                        Order order = new Order(list[1], customers.get(currentIndex).getName(), list[2],
+                                customers.get(currentIndex).getAddress().getLocation(),
+                                new Location(list[3], parseDouble(list[4]), parseDouble(list[5])), parseInt(list[6]),
+                                parseInt(list[7]));
                         int restaurantIndex = 0;
                         for (int i = 0; i < restaurants.size(); i++) {
                             if (restaurants.get(i).getId() == parseInt(list[6])) {
@@ -250,14 +271,14 @@ class ClientHandler implements Runnable {
                                 break;
                             }
                         }
-                        String[] list2=list[8].split("&");
+                        String[] list2 = list[8].split("&");
                         for (String str : list2) {
-                            String[] string=str.split("\\^");
-                            String food=string[0];
-                            int number=parseInt(string[1]);
+                            String[] string = str.split("\\^");
+                            String food = string[0];
+                            int number = parseInt(string[1]);
                             for (Food menuFood : restaurants.get(restaurantIndex).getMenu()) {
                                 if (menuFood.getName().equals(food)) {
-                                    order.addFood(menuFood,number);
+                                    order.addFood(menuFood, number);
                                 }
                             }
                         }
@@ -266,7 +287,8 @@ class ClientHandler implements Runnable {
                         restaurants.get(restaurantIndex).addOrder(order);
                         System.out.println(order.toString());
 
-                    } else if (command.startsWith("location")) { //format: location::address(String)::longitude::latitude
+                    } else if (command.startsWith("location")) { // format:
+                                                                 // location::address(String)::longitude::latitude
 
                         String[] list = command.split("::");
 
@@ -276,19 +298,19 @@ class ClientHandler implements Runnable {
 
                         customers.get(currentIndex).addAddress(address, longitude, latitude);
 
-                    } else if (command.startsWith("addFavorite")) { //addFavorite::restaurantId
+                    } else if (command.startsWith("addFavorite")) { // addFavorite::restaurantId
 
                         int favoriteRestaurantToAdd = parseInt(command.substring(13));
                         customers.get(currentIndex).addFavoriteRestaurant(favoriteRestaurantToAdd);
-                        System.out.println(favoriteRestaurantToAdd+"added");
+                        System.out.println(favoriteRestaurantToAdd + "added");
 
-                    } else if (command.startsWith("removeFavorite")) { //removeFavorite::restaurantId
+                    } else if (command.startsWith("removeFavorite")) { // removeFavorite::restaurantId
 
                         int favoriteRestaurantToAdd = parseInt(command.substring(16));
                         customers.get(currentIndex).removeFromFavoriteRestaurant(favoriteRestaurantToAdd);
-                        System.out.println(favoriteRestaurantToAdd +"removed");
+                        System.out.println(favoriteRestaurantToAdd + "removed");
 
-                    } else if (command.startsWith("comment")) { //comment::comment(String)::restaurantName
+                    } else if (command.startsWith("comment")) { // comment::comment(String)::restaurantName
 
                         String[] list = command.split("::");
                         String comment = list[1];
@@ -299,7 +321,7 @@ class ClientHandler implements Runnable {
                         Comment commentToAdd = new Comment(comment);
                         commentToAdd.setCustomerName(customerName);
                         commentToAdd.setRestaurantName(restaurantName);
-                        //commentToAdd.setTimeComment(timeComment);
+                        // commentToAdd.setTimeComment(timeComment);
 
                         customers.get(currentIndex).addComment(commentToAdd);
 
@@ -328,9 +350,7 @@ class ClientHandler implements Runnable {
             }
         }
 
-
     }
-
 
 }
 
@@ -355,7 +375,6 @@ class Main {
     public static void main(String[] args) throws IOException {
 
         Server server = new Server(8080);
-
 
     }
 }
