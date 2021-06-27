@@ -185,7 +185,8 @@ public class SendData {
 
 
                 /////////////////////////////////                       menu            /////////////////////
-
+                if (restaurant.getMenu().size()==0)
+                    data+="null###";
                 for (Food food : restaurant.getMenu()) {
                     data += food.getName() + "::" + food.getDescription() + "::" + food.getPrice() + "::" + food.getDiscount() + "::" +
                             food.getAvailable() + "::" + food.getTypeFood()+":::" ;
@@ -195,7 +196,8 @@ public class SendData {
 
 
                 /////////////////////////////////                   comments           /////////////////////
-
+                 if (restaurant.getComments().size()==0)
+                    data+="null###";
                 for (Comment comment : restaurant.getComments() ) {
                     data += comment.getComment() + "::" + comment.getCustomerName() + "::" +
                             comment.getRestaurantName() + "::" + comment.getTimeComment() + "::" ;
@@ -209,7 +211,8 @@ public class SendData {
 
 
                 /////////////////////////////////                   orders           /////////////////////
-
+            if (restaurant.getOrders().size()==0)
+                data+="null###";
             for (Order order : restaurant.getOrders()) {
             data += order.getStatus() + "^" +
                     order.getCustomerName() + "^" +
@@ -227,7 +230,8 @@ public class SendData {
 
 
             /////////////////////////////////               cash data               //////////////////////////////
-
+            if (restaurant.getCashSales().size()==0)
+                data+="null#";
             for (int i : restaurant.getCashSales()) {
                 data+=i+"^";
             }
@@ -236,7 +240,8 @@ public class SendData {
 
 
             /////////////////////////////////               online data               //////////////////////////////
-
+            if ( restaurant.getOnlineSales().size()==0)
+                data+="null#";
             for (int i : restaurant.getOnlineSales()) {
                 data+=i+"^";
             }
