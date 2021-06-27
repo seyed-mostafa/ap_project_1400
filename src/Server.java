@@ -13,7 +13,7 @@ import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
 class ClientHandler implements Runnable {
-    static int clientCounter = 1;
+    static int clientCounter = 0;
     Socket socket;
     DataInputStream dataIn;
     DataOutputStream dataOut;
@@ -26,7 +26,7 @@ class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("client " + clientCounter++ + " added.");
+        System.out.println("client " + ++clientCounter + " added.");
 
         String who = ""; // Seller Or Customer
 
@@ -45,6 +45,7 @@ class ClientHandler implements Runnable {
                 while (true) {
 
                     String command = dataIn.readLine();
+                    System.out.println(clientCounter+" "+command);
 
                     if (command.startsWith("Entering")) { //format: Entering::phone::password
 
