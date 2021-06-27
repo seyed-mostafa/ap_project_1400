@@ -45,6 +45,9 @@ class ClientHandler implements Runnable {
                 while (true) {
 
                     String command = dataIn.readLine();
+                    if (command.contains("Seller")) {
+                        command = dataIn.readLine();
+                    }
                     System.out.println(clientCounter+" "+command);
 
                     if (command.startsWith("Entering")) { //format: Entering::phone::password
@@ -54,8 +57,10 @@ class ClientHandler implements Runnable {
                         String inputPhoneNumberEnter = list[1];
                         String inputPasswordEnter = list[2];
 
+
                         for (int i = 0; i < restaurants.size(); i++) {
-                            if (customers.get(i).getPhoneNumber().equals(inputPhoneNumberEnter) && customers.get(i).getPassword().equals(inputPasswordEnter)) {
+                            System.out.println(restaurants.get(i).getPhoneNumber() + ", " + inputPhoneNumberEnter + ", " + restaurants.get(i).getPassword() + ", " + inputPasswordEnter);
+                            if (restaurants.get(i).getPhoneNumber().equals(inputPhoneNumberEnter) && restaurants.get(i).getPassword().equals(inputPasswordEnter)) {
                                 validUser = true;
                                 currentIndex = i;
                                 break;
@@ -169,6 +174,7 @@ class ClientHandler implements Runnable {
 
 
             } catch (Exception e) {
+                System.out.println("catch");
                 try {
                     this.socket.close();
                     this.dataOut.close();
@@ -185,6 +191,9 @@ class ClientHandler implements Runnable {
                 while (true) {
 
                     String command = dataIn.readLine();
+                    if (command.contains("Customer")) {
+                        command = dataIn.readLine();
+                    }
                     System.out.println(clientCounter+command);
 
                     if (command.startsWith("Entering")) { //format: Entering::phone::password
