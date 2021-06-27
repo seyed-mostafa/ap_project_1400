@@ -45,23 +45,31 @@ class ClientHandler implements Runnable {
                 while (true) {
 
                     String command = dataIn.readLine();
+                    System.out.println(command);
+                    if (command.equals("Seller")) {
+                        command = dataIn.readLine();
+                    }
                     System.out.println(clientCounter+" "+command);
 
-                    if (command.startsWith("Entering")) { //format: Entering::phone::password
+                    if (command.contains("Entering")) { //format: Entering::phone::password
 
                         boolean validUser = false;
                         String [] list = command.split("::");
                         String inputPhoneNumberEnter = list[1];
                         String inputPasswordEnter = list[2];
 
+                        System.out.println("before finding");
+
                         for (int i = 0; i < restaurants.size(); i++) {
                             if (customers.get(i).getPhoneNumber().equals(inputPhoneNumberEnter) && customers.get(i).getPassword().equals(inputPasswordEnter)) {
                                 validUser = true;
                                 currentIndex = i;
+                                System.out.println("I find it");
                                 break;
                             }
+                            System.out.println("i am in for loop");
                         }
-
+                        System.out.println("Before checking");
                         if (validUser) {
                             dataOut.writeBytes("true" + SendData.restaurantData(currentIndex));
                             System.out.println("User was True, index : " + currentIndex);
@@ -70,6 +78,7 @@ class ClientHandler implements Runnable {
                             dataOut.writeBytes("false");
                             System.out.println("User was not True");
                         }
+                        System.out.println("After checking");
 
                     } else if (command.startsWith("Registering")) { //format: Registering::nameRegistering::phoneNumber::password::address(String)::longitude::latitude::range::foodType1,foodType2,...
 
@@ -81,15 +90,24 @@ class ClientHandler implements Runnable {
                         double lon = parseDouble(dataRegistering[5]);
                         double lat = parseDouble(dataRegistering[6]);
                         int range = parseInt(dataRegistering[7]);
+
                         String[] typeFoodRegistering = dataRegistering[8].split(",");
+
 
                         Restaurant restaurantToAdd = new Restaurant(nameRegistering, new Location(addressString, lat, lon), phoneNumber, password);
                         restaurantToAdd.setSendingRangeRadius(range);
+                        System.out.println("before typeFood");
                         for (String type : typeFoodRegistering) {
                             restaurantToAdd.addTypeFood(Food.TypeFood.valueOf(type));
                         }
+                        System.out.println("after typeFood");
+
+                        System.out.println(restaurants.size());
 
                         restaurants.add(restaurantToAdd);
+
+                        System.out.println(restaurants.size());
+                        System.out.println("Registering Successfully");
 
                     } else if (command.startsWith("order")) {
 
@@ -179,6 +197,10 @@ class ClientHandler implements Runnable {
                 while (true) {
 
                     String command = dataIn.readLine();
+                    System.out.println(command);
+                    if (command.equals("Customer")) {
+                        command = dataIn.readLine();
+                    }
                     System.out.println(clientCounter+command);
 
                     if (command.startsWith("Entering")) { //format: Entering::phone::password
