@@ -220,7 +220,24 @@ public class SendData {
             }
             }
             data=data.substring(0,data.length()-3);
+            data += "#";
 
+
+            /////////////////////////////////               cash data               //////////////////////////////
+
+            for (int i : restaurant.getCashSales()) {
+                data+=i+"^";
+            }
+            data=data.substring(0,data.length()-1);
+            data += "#";
+
+
+            /////////////////////////////////               online data               //////////////////////////////
+
+            for (int i : restaurant.getOnlineSales()) {
+                data+=i+"^";
+            }
+            data=data.substring(0,data.length()-1);
 
 
 
