@@ -20,7 +20,8 @@ public class SendData {
 
 
         ////////////////////         comment         ///////////////////
-
+        if (customers.get(index).getComments().size()==0)
+            data += "null&";
         for (int i = 0; i < customers.get(index).getComments().size(); i++) {
             Comment comment = customers.get(index).getComments().get(i);
             data += comment.getComment() + "^" + comment.getRestaurantName() + "^" + comment.getTimeComment() + "^" + comment.getReply() + "^" + comment.getTimeReply() + "^^";
@@ -30,7 +31,8 @@ public class SendData {
 
 
         ////////////////////////             favoriteRestaurant          ///////////////
-
+        if (customers.get(index).getFavoriteRestaurant().size()==0)
+            data += "null&";
         for (Integer restaurant : customers.get(index).getFavoriteRestaurant()) {
             data += restaurant+"^";
         }
@@ -40,7 +42,8 @@ public class SendData {
 
 
         /////////////////////////               shoppingCart            ////////////////
-
+        if (customers.get(index).getShoppingCart().size()==0)
+            data += "null&&";
         for (Order order : customers.get(index).getShoppingCart()) {
             data += order.getStatus() + order.getRestaurantName() + "^" +
                     order.getRestaurantId() + "^" + order.getOrderTime() + "^" + order.getRestaurantAddress().getAddress() + "^" +
