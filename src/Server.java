@@ -221,8 +221,7 @@ class ClientHandler implements Runnable {
 
                     } else if (command.startsWith("Registering")) { //format: Registering::firstName::lastName::phoneNumber::password::address(String)::longitude::latitude
 
-                        String dataRegisteringString = dataIn.readLine();
-                        String[] dataRegistering = dataRegisteringString.split("::");
+                        String[] dataRegistering = command.split("::");
                         String firstName = dataRegistering[1];
                         String lastName = dataRegistering[2];
                         String phoneNumber = dataRegistering[3];
@@ -231,10 +230,18 @@ class ClientHandler implements Runnable {
                         double lon = parseDouble(dataRegistering[6]);
                         double lat = parseDouble(dataRegistering[7]);
 
+                        System.out.println("before customerToAdd");
+
                         Customer customerToAdd = new Customer(firstName, lastName, phoneNumber, password);
                         customerToAdd.addAddress(addressString, lon, lat);
 
+                        System.out.println(
+                                "before adding"
+                        );
+
                         customers.add(customerToAdd);
+
+                        System.out.println("Registered successfully!!!!!");
 
                     } else if (command.startsWith("wallet")) { //format: wallet::1000
 
