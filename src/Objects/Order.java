@@ -49,6 +49,10 @@ public class Order {
         this.id = id;
     }
 
+    public void setStatusSeller(boolean b){
+        status=b;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

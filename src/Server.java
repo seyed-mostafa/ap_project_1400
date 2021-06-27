@@ -91,7 +91,13 @@ class ClientHandler implements Runnable {
 
                         restaurants.add(restaurantToAdd);
 
-                    } else if (command.startsWith("order")) {
+                    } else if (command.startsWith("setDelivered")) {
+
+                        String[] list = command.split("::");
+                        for (Order order : restaurants.get(currentIndex).getOrders()) {
+                            if(order.getId()==parseInt(list[1]))
+                                order.setStatusSeller(list[2].equals("true") ? true: false);
+                        }
 
                     } else if (command.startsWith("addFood")) { //format: addFood::name::description::price::discount::typeFood
 
