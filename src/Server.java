@@ -101,11 +101,13 @@ class ClientHandler implements Runnable {
                         String description = list[2];
                         int price = parseInt(list[3]);
                         int discount = parseInt(list[4]);
-                        boolean available = true; //ToDo
+                        boolean available = true;
                         Food.TypeFood typeFood = Food.TypeFood.valueOf(list[5]);
+                        System.out.println("after type food");
 
                         Food food = new Food(name, description, price, discount, available, typeFood);
                         restaurants.get(currentIndex).getMenu().add(food);
+                        System.out.println("Add Successfully!!");
 
                     } else if (command.startsWith("changeFood")) { //format: changeFood::foodIndexToChange::name::description::price::discount::available::typeFood
 
