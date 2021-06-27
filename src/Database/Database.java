@@ -32,11 +32,11 @@ public class Database {
         Restaurant[] restaurant = {
                 new Restaurant("Reihoon",
                         new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
-                                34.717676891099835, 51.331243399093914), "09123456780", "123")
+                                233.21, 3243.24), "09123456780", "123")
 
                 , new Restaurant("Mashti",
                 new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
-                        34.717676891099835, 50.331243399093914), "09123456781", "123")
+                        5, 50.331243399093914), "09123456781", "123")
 
                 , new Restaurant("akbar jooje",
                 new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
@@ -68,7 +68,7 @@ public class Database {
 
                 , new Restaurant("topolooo",
                 new Location("golbarg,kh kerman,pelak 34,vahed 2,salam bar hame daram talash mikonam ke matn ziadi benevisam :)",
-                        34.717676891099835, 50.331243399093914), "09123456790", "123")};
+                        233.21, 3243.24), "09123456790", "123")};
 
 
         Food food1 = new Food("ghorme", "description1", 25000, 0, true, TypeFood.PersianFood);
