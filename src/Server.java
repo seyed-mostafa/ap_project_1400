@@ -120,6 +120,7 @@ class ClientHandler implements Runnable {
                         int discount = parseInt(list[5]);
                         boolean available = Boolean.getBoolean(list[6]);
                         Food.TypeFood typeFood = Food.TypeFood.valueOf(list[7]);
+                        System.out.println("after typeFood");
 
                         restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setName(name);
                         restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setDescription(description);
@@ -127,6 +128,8 @@ class ClientHandler implements Runnable {
                         restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setDiscount(discount);
                         restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setAvailable(available);
                         restaurants.get(currentIndex).getMenu().get(foodIndexToChange).setTypeFood(typeFood);
+
+                        System.out.println("Change Successfully!!");
 
                     } else if (command.startsWith("location")) { //format: location::address(String)::longitude::latitude
 
