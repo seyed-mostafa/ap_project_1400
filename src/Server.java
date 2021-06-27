@@ -186,7 +186,6 @@ class ClientHandler implements Runnable {
                         }
 
                         if (validUser) {
-                            dataOut.writeUTF("salam");
                             dataOut.writeBytes("true" + SendData.customerData(currentIndex));
                             System.out.println("User was True, index : " + currentIndex);
                         } else {
