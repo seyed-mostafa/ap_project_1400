@@ -56,12 +56,14 @@ public class SendData {
             data+="^^";
         }
         data=data.substring(0,data.length()-2);
-        // data+="&";
+         data+="&";
 
 
 
         /////////////////////////               Orders            ////////////////
 
+        if (customers.get(index).getPreviousOrders().size()==0)
+            data += "null&&";
         for (Order order : customers.get(index).getPreviousOrders()) {
             data += order.getStatus() + "^" + order.getRestaurantName() + "^" +
                     order.getRestaurantId() + "^" + order.getOrderTime() + "^" + order.getRestaurantAddress().getAddress() + "^" +
@@ -73,7 +75,7 @@ public class SendData {
             data=data.substring(0,data.length()-3);
             data+="^^";
         }
-        //data=data.substring(0,data.length()-2);
+        data=data.substring(0,data.length()-2);
         data+="&";
 
 
