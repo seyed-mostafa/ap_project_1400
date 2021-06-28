@@ -2,8 +2,6 @@ package Objects;
 
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 
 public class Customer  {
@@ -25,6 +23,13 @@ public class Customer  {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.password = password;
+    }
+
+    public void removeFromFavoriteRestaurant(int id) {
+        for (int i=0;1<favoriteRestaurant.size();i++) {
+            if (favoriteRestaurant.get(i)==id)
+                favoriteRestaurant.remove(i);
+        }
     }
 
     public void setName(String name) {

@@ -1,6 +1,5 @@
 package Objects;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Restaurant {
@@ -17,6 +16,7 @@ public class Restaurant {
     ArrayList<Integer> cashSales = new ArrayList<Integer>();
     ArrayList<Integer> onlineSales =new ArrayList<Integer>();
     ArrayList<Integer> totalSales = new ArrayList<Integer>();
+    ArrayList<Double> rate = new ArrayList<Double>();
 
 
     public Restaurant(String name, Location address, String phoneNumber, String password)  {
@@ -26,6 +26,17 @@ public class Restaurant {
         this.address = address;
         this.password = password;
         this.phoneNumber = phoneNumber;
+    }
+
+
+    public double getRate() {
+        double sum=0;
+        for(double i : rate)
+        sum+=i;
+        return sum/rate.size();
+    }
+    public void addRate(double rate){
+        this.rate.add(rate);
     }
 
 
@@ -62,6 +73,11 @@ public class Restaurant {
     public void addMenu(Food food){
         menu.add(food);
     }
+    public void addAllMenu(Food[] foods){
+        for(Food food : foods)
+            menu.add(food);
+    }
+
 
     public int getId(){
         return id;

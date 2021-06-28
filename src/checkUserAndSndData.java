@@ -62,7 +62,7 @@ public class checkUserAndSndData {
         }
 
         if (validUser) {
-            dataOut.writeBytes("true" + SendData.data(currentIndex));
+           // dataOut.writeBytes("true" + SendData.customerData(currentIndex));
             System.out.println("User was True, index : " + currentIndex);
         } else {
             dataOut.writeBytes("false");
