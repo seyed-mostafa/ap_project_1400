@@ -285,7 +285,7 @@ class ClientHandler implements Runnable {
                                 }
                             }
                         }
-
+                        customers.get(currentIndex).removeShoppingCart(order);
                         customers.get(currentIndex).addPreviousOrders(order);
                         restaurants.get(restaurantIndex).addOrder(order);
 
