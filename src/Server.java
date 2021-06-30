@@ -202,7 +202,7 @@ class ClientHandler implements Runnable {
                     if (command.contains("Customer")) {
                         command = dataIn.readLine();
                     }
-                    System.out.println(clientCounter + command);
+                    System.out.println( command);
 
                     if (command.startsWith("Entering")) { // format: Entering::phone::password
 
@@ -269,8 +269,15 @@ class ClientHandler implements Runnable {
                                 parseInt(list[7]));
                         int restaurantIndex = 0;
                         for (int i = 0; i < restaurants.size(); i++) {
-                            if (restaurants.get(i).getId() == parseInt(list[6])) {
+                            if (restaurants.get(i).getId() == order.getId()) {
                                 restaurantIndex = i;
+                                break;
+                            }
+                        }
+                        for (Order orders:customers.get(currentIndex).getShoppingCart()) {
+                            if (orders.getRestaurantId() == order.getRestaurantId()) {
+                                customers.get(currentIndex).getShoppingCart().remove(customers.get(currentIndex).getShoppingCart().indexOf(orders));
+                                System.out.println("remove it");
                                 break;
                             }
                         }
@@ -285,21 +292,24 @@ class ClientHandler implements Runnable {
                                 }
                             }
                         }
-                        customers.get(currentIndex).removeShoppingCart(order);
+
                         customers.get(currentIndex).addPreviousOrders(order);
                         restaurants.get(restaurantIndex).addOrder(order);
 
 
-                    } else if (command.startsWith("location")) { // format:
-                                                                 // location::address(String)::longitude::latitude
+                    } else if (command.startsWith("location")) { // Rate::restaurantId::rate
 
                         String[] list = command.split("::");
 
-                        String address = list[1];
-                        double longitude = parseDouble(list[2]);
-                        double latitude = parseDouble(list[3]);
+                        String restaurantId = list[1];
+                        double rate=parseInt(list[2]);
 
-                        customers.get(currentIndex).addAddress(address, longitude, latitude);
+                        for (Restaurant restaurant : restaurants) {
+                            if(restaurant.getId()==parseInt(restaurantId)){
+                                restaurant.addRate(rate);
+                                break;
+                            }
+                        }
 
                     } else if (command.startsWith("addFavorite")) { // addFavorite::restaurantId
 
@@ -325,7 +335,11 @@ class ClientHandler implements Runnable {
                         commentToAdd.setCustomerName(customerName);
                         commentToAdd.setRestaurantName(restaurantName);
                         // commentToAdd.setTimeComment(timeComment);
-
+                        for(Restaurant restaurant : restaurants)
+                            if(restaurant.getName().equals(commentToAdd.getRestaurantName())){
+                                restaurant.addComment(commentToAdd);
+                                break;
+                            }
                         customers.get(currentIndex).addComment(commentToAdd);
 
                     } else if (command.startsWith("exit")) {
